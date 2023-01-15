@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The purpose of this project is to design and implement a solution for automating the development workflows and deployments of the **Spring Petclinic** application, using tools that encapsulates concepts of all core modules covered during the training. 
+The purpose of this project is to design and implement a solution for automating the development workflows and deployments of the **Spring Pet Clinic** application, using tools that encapsulates concepts of all core modules covered during the training. 
 
 The Project involves:
 
@@ -14,5 +14,44 @@ The Project involves:
 * Containerisation & Orchestration
 * Cloud Configuration and Management
 
+## Scope 
+We will be working with these 2 externally developed applications:
+
+* https://github.com/spring-petclinic/spring-petclinic-angular
+* https://github.com/spring-petclinic/spring-petclinic-rest
+
+The **spring-petclinic-angular** serves as a front-end client using _AngularJS_, whilst the **spring-petclinic-rest** serves as an _API_ using _Java_.
+
+The applicaion should be deployed considering the following:
+* Multiple Environment support: How can a developer test their new features on an environment before merging their changes to the main branch?
+* Automation: How can changes on the GitHub repository automatically build and deploy to testing and live environments?
+* Running costs: What are your monthly estimates? How could they be improved?
+
 ## Team Organization 
 Our team adopted an Agile approach to the project management, organizng the project into sprints, assigning scrum roles and providing a product a backlog in the form of a Kanban board. 
+At the beggining, our Kanban board looked like the below image:
+![]()
+
+During the project, we had to do a few changes to the board, as you can see below:
+![]()
+
+At the end, we were able to complete all the sprints and tasks:
+![]()
+
+The Jira board can be accessed [here]() 
+
+## Development
+-
+
+## Risk Assessment 
+
+A risk assessment was designed to evaluate potential scenarios that may impact the project in a negative way. These measures could be implemented in the app such that these risks are less likely to occur. This initial risk assessment is shown below:
+
+![]()
+
+Some of the control measures implemented in the project to reduce the likelihood of a risk occurring are as follows:
+
+
+## Testing
+Testing is a crucial part of software development. 
+-
