@@ -15,6 +15,7 @@ The Project involves:
 * Cloud Configuration and Management
 
 ## Scope 
+
 We will be working with these 2 externally developed applications:
 
 * https://github.com/spring-petclinic/spring-petclinic-angular
@@ -28,6 +29,7 @@ The applicaion should be deployed considering the following:
 * Running costs: What are your monthly estimates? How could they be improved?
 
 ## Team Organization 
+
 Our team adopted an Agile approach to the project management, organizng the project into sprints, assigning scrum roles and providing a product a backlog in the form of a Kanban board. 
 At the beggining, our Kanban board looked like the below image:
 ![]()
@@ -41,6 +43,7 @@ At the end, we were able to complete all the sprints and tasks:
 The Jira board can be accessed [here]() 
 
 ## Development
+
 -
 
 ## Risk Assessment 
@@ -53,5 +56,5 @@ Some of the control measures implemented in the project to reduce the likelihood
 
 
 ## Testing
+
 Testing is a crucial part of software development. 
--
