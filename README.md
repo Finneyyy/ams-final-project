@@ -28,19 +28,21 @@ The applicaion should be deployed considering the following:
 * Automation: How can changes on the GitHub repository automatically build and deploy to testing and live environments?
 * Running costs: What are your monthly estimates? How could they be improved?
 
-## Team Organization 
+## Team Organization and Project Management 
 
-Our team adopted an Agile approach to the project management, organizng the project into sprints, assigning scrum roles and providing a product a backlog in the form of a Kanban board. 
-At the beggining, our Kanban board looked like the below image:
-![]()
+Our team adopted an Agile approach to the project management, organizng the project into sprints, assigning scrum roles and providing a product a backlog. For project tracking we used a Trello board. Backlog Items were assigned story points, acceptance criteria and MoSCoW prioritisation, and moved from project backlog, to sprint backlog, to review and then complete as the project progressed. 
+At the begining, the state of the Trello board was:
+
+![](images/trello1.png)
+![](images/trello2.png)
 
 During the project, we had to do a few changes to the board, as you can see below:
-![]()
+
 
 At the end, we were able to complete all the sprints and tasks:
 ![]()
 
-The Jira board can be accessed [here]() 
+The Trello board can be accessed [here](https://trello.com/b/LcCodeyy/group-project) 
 
 ## Development
 
@@ -58,3 +60,6 @@ Some of the control measures implemented in the project to reduce the likelihood
 ## Testing
 
 Testing is a crucial part of software development. 
+
+
+[def]: ../images/trello1.png
