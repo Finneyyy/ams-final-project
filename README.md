@@ -33,8 +33,8 @@ The applicaion should be deployed considering the following:
 Our team adopted an Agile approach to the project management, organizng the project into sprints, assigning scrum roles and providing a product a backlog. For project tracking we used a Trello board. Backlog Items were assigned story points, acceptance criteria and MoSCoW prioritisation, and moved from project backlog, to sprint backlog, to review and then complete as the project progressed. 
 At the begining, the state of the Trello board was:
 
-![](images/trello1.png)
-![](images/trello2.png)
+![](images/trello1.PNG)
+![](images/trello2.PNG)
 
 During the project, we had to do a few changes to the board, as you can see below:
 
