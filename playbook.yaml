@@ -1,0 +1,57 @@
+- hosts: localhost
+  vars:
+    git_version: latest
+    github_repo1: https://github.com/spring-petclinic/spring-petclinic-angular
+    github_repo2: https://github.com/spring-petclinic/spring-petclinic-rest
+    nginx_version: latest
+    node_version: 16.x
+
+  tasks:
+  - name: Install Docker
+    apt:
+      name:  docker
+      state: latest
+
+  - name: Install Java
+    apt:
+      name: openjdk-11-jdk
+      state: present
+
+  - name: Clone Repo 1
+    git:
+      github_repo1: https://github.com/spring-petclinic/spring-petclinic-angular
+
+  - name: Clone Repo 2
+    git:
+      github_repo2: https://github.com/spring-petclinic/spring-petclinic-rest
+
+  - name: Install nginx
+    apt:
+      name: nginx
+      state: latest
+      version: latest
+
+  - name: Configure nginx for Repo1
+    lineinfile:
+      path: /etc/nginx/nginx.conf
+      line: "server { listen 80; server_name https://github.com/spring-petclinic/spring-petclinic-angular; location / {
+proxy_pass http://github.com/spring-petclinic/spring-petclinic-angular:22; proxy_http_version 1.1;
+proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade';
+proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
+      insertafter: "#server {"
+
+  - name: Configure nginx for Repo2
+    lineinfile:
+      path: /etc/nginx/nginx.conf
+      line: "server { listen 80; server_name https://github.com/spring-petclinic/spring-petclinic-rest; location / {
+proxy_pass http://github.com/spring-petclinic/spring-petclinic-rest:22; proxy_http_version 1.1;
+proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade';
+proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
+
+  - name: Download Node.js v16.x
+    shell: curl -sL https://deb.nodesource.com/setup_16.x | bash
+
+
+    apt:
+      name: nodejs
+      state: latest
