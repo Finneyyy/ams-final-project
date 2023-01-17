@@ -28,6 +28,13 @@ The applicaion should be deployed considering the following:
 * Automation: How can changes on the GitHub repository automatically build and deploy to testing and live environments?
 * Running costs: What are your monthly estimates? How could they be improved?
 
+## Metrics/Performance Standards:
+
+- Agile workflow
+- Thorough project tracking
+- Equal participation/contribution
+- Justification for decisions
+
 ## Team Organization and Project Management 
 
 Our team adopted an Agile approach to the project management, organizng the project into sprints, assigning scrum roles and providing a product a backlog. For project tracking we used a Trello board. Backlog Items were assigned story points, acceptance criteria and MoSCoW prioritisation, and moved from project backlog, to sprint backlog, to review and then complete as the project progressed. 
@@ -44,9 +51,19 @@ At the end, we were able to complete all the sprints and tasks:
 
 The Trello board can be accessed [here](https://trello.com/b/LcCodeyy/group-project) 
 
-## Development
+## Tools Used 
 
--
+The majority of decisions were made based on familiarity and confidence with the tools, in order for us to be able to work efficiently.
+
+- Kanban: We used the **Trello** board because it's and easy-to-use add-on power-ups that can help to assign members tasks, and set priority, and due dates.
+- Version Control System (VCS): We used **Git & GitHub** because its a VCS tools that we have been most exposed to and we are most familiar with. 
+- Database: **MySQL** - we will need to change from an in-memory database and onboard it to the cloud. MySQL is an easy-to-use database. 
+- Continuous Integration / Continuous Deployment (CI/CD): **Jenkins**. This helps automate the parts of software development related to building, testing, and deploying, facilitating continuous integration and continuous delivery.
+- IaC & Config Management: **Terraform** and **Ansible**. These tools are very powerful, widely adapted, and work with most cloud infrastructures.
+- Cloud: **AWS** - Our training was focused on AWS. We already have some level of experience with it. 
+- Reverse Proxy: **NGINX** - Nginx is a web server that can also be used as a reverse proxy, load balancer, mail proxy, and HTTP cache. We are also familiar with NGINX.
+- Containerisation: **Docker** - Docker is the most popular in market share, familiarity and ease of use are key. It also comes with a large library of images that can be customized.
+- Orchestration Tool: **Docker Swarm**. Our training plan had changed and the Kubernetes module has been pushed after the final project. Swarm is a container orchestration tool built into Docker that allows us to run a network of containers across multiple host machines. 
 
 ## Risk Assessment 
 
@@ -62,4 +79,3 @@ Some of the control measures implemented in the project to reduce the likelihood
 Testing is a crucial part of software development. 
 
 
-[def]: ../images/trello1.png
