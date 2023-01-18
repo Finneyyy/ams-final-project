@@ -30,7 +30,7 @@ resource "aws_internet_gateway" "production-igw" {
   }
 }
 
-# route table
+# production route table
 resource "aws_route_table" "production-route-table" {
   vpc_id = aws_vpc.production-vpc.id
 
@@ -144,6 +144,26 @@ resource "aws_instance" "web-server" {
     "Name" = "web-server"
   }
 }
+#####################################################################################################
+
+# DB route table 1a
+resource "aws_route_table" "db-route-table-1a" {
+  vpc_id = aws_vpc.production-vpc.id
+
+  route {
+    cidr_block     = "0.0.0.0/0" # all ipv4 trafic to our internet gateway
+    nat_gateway_id = aws_nat_gateway.gw1a.id
+  }
+
+  # route {
+  #   ipv6_cidr_block = "::/0" # all ipv6 to our internet gateway
+  #   egress_only_gateway_id  = aws_nat_gateway.gw1a.id
+  # }
+
+  tags = {
+    Name = "DB-RT-1a"
+  }
+}
 
 # DB subnet AV 1a
 resource "aws_subnet" "db-subnet-1a" {
@@ -156,6 +176,56 @@ resource "aws_subnet" "db-subnet-1a" {
   }
 }
 
+resource "aws_nat_gateway" "gw1a" {
+  # The Allocation ID of the Elastic IP address for the gateway.
+  allocation_id = aws_eip.nat1a.id
+
+  # The Subnet ID of the subnet in which to place the gateway.
+  subnet_id = aws_subnet.production-subnet.id
+
+  # A map of tags to assign to the resource.
+  tags = {
+    Name = "NAT 1a"
+  }
+}
+
+resource "aws_eip" "nat1a" {
+  # EIP may require IGW to exist prior to association. 
+  # Use depends_on to set an explicit dependency on the IGW.
+  depends_on = [aws_internet_gateway.production-igw]
+}
+
+# assign subnet with route table
+resource "aws_route_table_association" "db-1" {
+  subnet_id      = aws_subnet.db-subnet-1a.id
+  route_table_id = aws_route_table.db-route-table-1a.id
+}
+
+########################################################
+# DB route table 1b
+resource "aws_route_table" "db-route-table-1b" {
+  # The VPC ID.
+  vpc_id = aws_vpc.production-vpc.id
+
+  route {
+    # The CIDR block of the route.
+    cidr_block = "0.0.0.0/0"
+
+    # Identifier of a VPC NAT gateway.
+    nat_gateway_id = aws_nat_gateway.gw1b.id
+  }
+
+  # route {
+  #   ipv6_cidr_block = "::/0" # all ipv6 to our internet gateway
+  #   nat_gateway_id  = aws_nat_gateway.gw1b.id
+  # }
+
+  # A map of tags to assign to the resource.
+  tags = {
+    Name = "DB-RT-1b"
+  }
+}
+
 # DB subnet AV 1b
 resource "aws_subnet" "db-subnet-1b" {
   vpc_id            = aws_vpc.production-vpc.id
@@ -165,6 +235,31 @@ resource "aws_subnet" "db-subnet-1b" {
   tags = {
     "Name" = "DB-Subnet-1b"
   }
+}
+
+resource "aws_nat_gateway" "gw1b" {
+  # The Allocation ID of the Elastic IP address for the gateway.
+  allocation_id = aws_eip.nat1b.id
+
+  # The Subnet ID of the subnet in which to place the gateway.
+  subnet_id = aws_subnet.production-subnet.id
+
+  # A map of tags to assign to the resource.
+  tags = {
+    Name = "NAT 1b"
+  }
+}
+
+resource "aws_eip" "nat1b" {
+  # EIP may require IGW to exist prior to association. 
+  # Use depends_on to set an explicit dependency on the IGW.
+  depends_on = [aws_internet_gateway.production-igw]
+}
+
+# assign subnet with route table
+resource "aws_route_table_association" "db-1b" {
+  subnet_id      = aws_subnet.db-subnet-1b.id
+  route_table_id = aws_route_table.db-route-table-1b.id
 }
 
 resource "aws_db_subnet_group" "default" {
@@ -180,19 +275,27 @@ resource "aws_db_subnet_group" "default" {
 resource "aws_db_instance" "default" {
   allocated_storage     = 10
   max_allocated_storage = 50
-  db_name               = "mydb"
+  db_name               = "petclinic"
   engine                = "mysql"
   engine_version        = "5.7.40"
   instance_class        = "db.t2.micro"
-  username              = "test"
-  password              = "testtest"
+  username              = "pc"
+  password              = "petclinic"
   parameter_group_name  = "default.mysql5.7"
   skip_final_snapshot   = true
   availability_zone     = "eu-west-1a"
-  db_subnet_group_name = "main"
+  db_subnet_group_name  = "main"
   # vpc_security_group_ids = 
-  
+
   tags = {
     "Name" = "back_end-db"
   }
+}
+
+output "rds_endpoint" {
+  value = aws_db_instance.default.endpoint
+}
+resource "local_file" "public_inventory" {
+  filename = "./inventory/publicIPs.ini"
+  content  = "output.rds_endpoint"
 }
