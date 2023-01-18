@@ -6,17 +6,21 @@
     nginx_version: latest
     node_version: 16.x
     nginx_conf_file: /etc/nginx/nginx.conf
+    java_version: openjdk-11-jdk
+    docker_version: latest
 
   tasks:
   - name: Install Docker
     apt:
       name: docker
       state: latest
+      version: "{{ docker_version }}"
 
   - name: Install Java
     apt:
       name: openjdk-11-jdk
       state: latest
+      version: "{{ java_version }}"
 
   - name: Clone Repo 1
     git:
@@ -40,8 +44,6 @@
     shell: set -eo pipefail; curl -sL https://deb.nodesource.com/setup_16.x | bash
     changed_when: false
   
-  
-
   - name: Configure nginx for Repo1
     lineinfile:
       path: "{{ nginx_conf_file }}"
@@ -68,8 +70,6 @@
   - name: Install Docker Swarm
     shell: set -eo pipefail; apt-get install -y docker-swarm 
     changed_when: false
-
-
 
   - name: Get EC2 Instance IPs
     command: terraform output ec2_instance_ips 
