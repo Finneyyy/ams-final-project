@@ -1,3 +1,7 @@
-For the dockerfiles, they'll want to be added to the frontend and backend folders. It still needs to grab the files in the folder to be able to run.
+Written by: Eoin
+Custom dockerfiles have been written and added to their respective locations. 
 
-It needs docker, nginx and nodejs to run. Nginx version can be latest, but nodejs has only been tested on version 16.3-alpine. 
+Frontend needs docker (obviously), nginx and nodejs to run. Nginx version can be latest, but nodejs has only been tested on version 16.3-alpine. 
+Backend needs java installed, so openjdk is needed. Was tested on openjdk-11
+
+docker run --rm -p 8080:8080 <immage>
