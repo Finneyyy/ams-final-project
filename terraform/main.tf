@@ -145,20 +145,31 @@ resource "aws_instance" "web-server" {
   }
 }
 
-# # DB subnet
-# resource "aws_subnet" "db-subnet" {
-#   vpc_id            = aws_vpc.production-vpc.id
-#   cidr_block        = "10.0.2.0/24"
-#   availability_zone = "eu-west-1a"
+# DB subnet AV 1a
+resource "aws_subnet" "db-subnet-1a" {
+  vpc_id            = aws_vpc.production-vpc.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "eu-west-1a"
 
-#   tags = {
-#     "Name" = "DB-Subnet"
-#   }
-# }
+  tags = {
+    "Name" = "DB-Subnet-1a"
+  }
+}
+
+# DB subnet AV 1b
+resource "aws_subnet" "db-subnet-1b" {
+  vpc_id            = aws_vpc.production-vpc.id
+  cidr_block        = "10.0.3.0/24"
+  availability_zone = "eu-west-1b"
+
+  tags = {
+    "Name" = "DB-Subnet-1b"
+  }
+}
 
 resource "aws_db_subnet_group" "default" {
   name       = "main"
-  subnet_ids = [aws_subnet.db-subnet.id]
+  subnet_ids = [aws_subnet.db-subnet-1a.id, aws_subnet.db-subnet-1b.id]
 
   tags = {
     Name = "DB subnet group"
@@ -174,11 +185,11 @@ resource "aws_db_instance" "default" {
   engine_version        = "5.7.40"
   instance_class        = "db.t2.micro"
   username              = "test"
-  password              = "test"
+  password              = "testtest"
   parameter_group_name  = "default.mysql5.7"
   skip_final_snapshot   = true
   availability_zone     = "eu-west-1a"
-  # db_subnet_group_name = 
+  db_subnet_group_name = "main"
   # vpc_security_group_ids = 
   
   tags = {
