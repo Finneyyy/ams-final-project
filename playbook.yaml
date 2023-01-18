@@ -13,19 +13,10 @@
       name: docker
       state: latest
 
-  - name: Update APT package manager repositories cache
-    become: true
-    apt:
-      update_cache: yes
-      
   - name: Install Java
-    become: yes
-    apt: 
-      name: "{{ packages }}"
-      state: present
-    vars:
-      packages:
-         - openjdk-11-jdk
+    apt:
+      name: openjdk-11-jdk
+      state: latest
 
   - name: Clone Repo 1
     git:
@@ -78,19 +69,21 @@
     shell: set -eo pipefail; apt-get install -y docker-swarm 
     changed_when: false
 
-#     ##OPTION 1##
+
 
   - name: Get EC2 Instance IPs
-    command: terraform output ec2_instance_ips #terraform_output extracts all specified info from a terraform file 
-    register: ec2_instance_ips #register stores the output of the terraform_output command in an Ansible variable
+    command: terraform output ec2_instance_ips 
+    register: ec2_instance_ips 
+    changed_when: false
 
   - name: Set Instance ID's as variable
     set_fact:
-      ec2_instance_ip_list: "{{ ec2_instance_ips.stdout_lines }}" #set_fact creates a variable that contains the IP's as a list, can then reference the variable in the playbook when needed
+      ec2_instance_ip_list: "{{ ec2_instance_ips.stdout_lines }}" 
 
   - name: Get db endpoint URL 
-    command: terraform output db_endpoint_url #same process as the Instance IP's
+    command: terraform output db_endpoint_url 
     register: db_endpoint_url 
+    changed_when: false
 
   - name: Set endpoint URL as variable
     set_fact:
