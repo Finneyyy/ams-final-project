@@ -38,7 +38,8 @@
 
   - name: Download Node.js v16.x
     shell: set -eo pipefail; curl -sL https://deb.nodesource.com/setup_16.x | bash
-
+    changed_when: false
+  
   - name: Install Node.js
     apt:
       name: nodejs
@@ -62,9 +63,11 @@
        proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
 
   - name: Install Docker Compose
-    shell: set -eo pipefail; curl -sL
+    shell: set -eo pipefail; curl -sL 
      "https://github.com/docker/compose/releases/download/1.27.4/
      docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    changed_when: false
 
   - name: Install Docker Swarm
     shell: set -eo pipefail; apt-get install -y docker-swarm 
+    changed_when: false
