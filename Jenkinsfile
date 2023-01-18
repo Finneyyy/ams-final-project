@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh "bash ~/test.sh"
+                sh "spring-petclinic-angular-master/spring-petclinic-angular-master/src/test.ts"
             }
         }
         // stage('Deploy') {
