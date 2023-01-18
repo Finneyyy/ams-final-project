@@ -2,9 +2,21 @@ version: "3.9"
 services:
   frontend:
     container_name: frontend
-    image: imageName
     build: ./frontend
+    image: 5pectr3/petclinic-frontend:latest
+    depends_on: 
+    - backend
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
   backend:
-    container_name: name
-    image: path
+    container_name: backend
     build: ./backend
+    image: 5pectr3/petclinic-backend:latest
+    ports:
+      - target: 9966
+        published: 9966
+        protocol: tcp
+
+

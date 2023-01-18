@@ -1,0 +1,29 @@
+# The reason why swarm is being used is that it's easier to install exactly what we need to on particular machines
+
+---
+  - name: Initialise Swarm Manager
+    hosts: swarm-manager
+    gather_facts: False
+    remote_user: ubuntu
+    tasks:
+      - name: swarm init
+        command: docker swarm init --advertise-addr {{ inventory_hostname }}
+
+      - name: get worker token
+
+      - name: show worker token
+
+      - name: master token
+      
+      - name: show master token
+
+  - name: join cluster
+    hosts: swarm-worker
+    gather_facts: False
+    remote_user: ubuntu
+    vars:
+      token:
+      master:
+    tasks:
+      - name: join cluster as a worker
+        command: docker swarm join --token {{ token }} {{ master }}:2377
