@@ -13,10 +13,19 @@
       name: docker
       state: latest
 
-  - name: Install Java
+  - name: Update APT package manager repositories cache
+    become: true
     apt:
-      name: openjdk-11-jdk
-      state: latest
+      update_cache: yes
+      
+  - name: Install Java
+    become: yes
+    apt: 
+      name: "{{ packages }}"
+      state: present
+    vars:
+      packages:
+         - openjdk-11-jdk
 
   - name: Clone Repo 1
     git:
@@ -40,10 +49,7 @@
     shell: set -eo pipefail; curl -sL https://deb.nodesource.com/setup_16.x | bash
     changed_when: false
   
-  - name: Install Node.js
-    apt:
-      name: nodejs
-      state: latest
+  
 
   - name: Configure nginx for Repo1
     lineinfile:
@@ -72,7 +78,7 @@
     shell: set -eo pipefail; apt-get install -y docker-swarm 
     changed_when: false
 
-    ##OPTION 1##
+#     ##OPTION 1##
 
   - name: Get EC2 Instance IPs
     command: terraform output ec2_instance_ips #terraform_output extracts all specified info from a terraform file 
@@ -90,28 +96,193 @@
     set_fact:
       db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
 
-    ## OPTION 2##
-  - name: create teraform.tfvars
-    include_role:
-    name: terra-provision
+#     ## OPTION 2##
+#   - name: create teraform.tfvars
+#     include_role:
+#     name: terra-provision
 
-  - name: init terraform if .terraform is not there
-    shell: terraform init
-    args: 
-    chfir: "{{ playbook_dir }}//terraform/.terraform/"
+#   - name: init terraform if .terraform is not there
+#     shell: terraform init
+#     args: 
+#     chfir: "{{ playbook_dir }}//terraform/.terraform/"
 
-  - name:  Run Terraform Script 
-    terraform:
-      project_path: "{{ playbook_dir }}/terraform/"
-      state: "{{ aws_instance_state }}"
-      variables:
-      aws_region: "{{ aws_region }}"
-      aws_access_key_id: "{{ aws_access_key_id }}"
-      aws_secret_access_key: "{{ aws_secret_access_key }}"
-      aws_ami_id: "{{ aws_ami_id }}"
-      public_key: "{{ public_key }}"
-      register: terra_result #output needs to be added to terra_result variable 
+#   - name:  Run Terraform Script 
+#     terraform:
+#       project_path: "{{ playbook_dir }}/terraform/"
+#       state: "{{ aws_instance_state }}"
+#       variables:
+#       aws_region: "{{ aws_region }}"
+#       aws_access_key_id: "{{ aws_access_key_id }}"
+#       aws_secret_access_key: "{{ aws_secret_access_key }}"
+#       aws_ami_id: "{{ aws_ami_id }}"
+#       public_key: "{{ public_key }}"
+#       register: terra_result #output needs to be added to terra_result variable 
 
-  - name: show terra_result
-    debug:
-    var: terra_result
+#   - name: show terra_result
+#     debug:
+#     var: terra_result
+
+#   - name: set vm_ip / name
+#     set_fact:
+
+#     vm_ip_web: "{{ terra_result.outputs.public_ip_web.value }}"
+#     vm_ip_db: "{{ terra_result.outputs.public_ip_db.value }}"
+
+#     when: 
+#      - terra_result.outputs.state_web is defined
+#      - terra_result.outputs.state_db is defined 
+
+#   - name: Create Dynamic Inventory
+
+#     block:
+#      - name: remove old dynamic group_vars file
+#        file:
+#          path: "{{ item }}"
+#          state: absent
+#        with_items:
+#         - group_vars/dynamic_web.yaml
+#         - group_vars/dynamic_db.yaml
+  
+#      - name: create new centos group_vars file
+#        file:
+#         path: "{{ item }}" 
+#         state: touch
+#     with_items:
+#      - group_vars/dynamic_web.yaml
+#      - group_vars/dynamic_db.yaml
+
+#   - name: create the inventory directory
+#     file:
+#       path: inventory/
+#       state: directory
+
+#   - name: remove old dynamic host file
+#     file: 
+#       path: inventory/hosts
+#       state: absent
+
+#   - name: create new dynamic host file
+
+#     file: 
+#       path: inventory/hosts
+#       state: touch
+
+#   - name: add retrieved IP to file
+#     blockinfile:
+#       path: group_vars/dynamic_web.yaml
+#       marker: "" 
+
+#       block: | 
+
+#         --- 
+#         ansible_host: {{ vm_ip_web }} 
+
+#         ansible_user: {{ remote_user[hypervisor] }} 
+
+#         become_user: {{ remote_user[hypervisor] }} 
+
+#         remote_user: {{ remote_user[hypervisor] }} 
+
+#         become: true 
+
+#   - name: add retrieved IP to file 
+
+#     blockinfile: 
+
+#      path: group_vars/dynamic_db.yml 
+
+#      marker: "" 
+
+#      block: | 
+
+#         --- 
+
+#         ansible_host: {{ vm_ip_db }} 
+
+#         ansible_user: {{ remote_user[hypervisor] }} 
+
+#         become_user: {{ remote_user[hypervisor] }} 
+
+#         remote_user: {{ remote_user[hypervisor] }} 
+
+#         become: true 
+
+#         ... 
+
+#   - name: add retrieved IP to file 
+
+#     blockinfile: 
+
+#      path: "inventory/hosts" 
+
+#      marker: "" 
+
+#      block: | 
+
+#         [dynamic_web] 
+
+#         {{ vm_ip_web }} 
+         
+
+#         [dynamic_db] 
+
+#         {{ vm_ip_db }} 
+         
+
+#   - name: Add host 
+
+#     add_host: 
+
+#       hostname: "{{ vm_ip_web }}" 
+
+#       groupname: dynamic_web 
+
+#       remote_user: "{{ remote_user[hypervisor] }}" 
+
+  
+#   - name: Add host 
+
+#     add_host: 
+
+#       hostname: "{{ vm_ip_db }}" 
+
+#       groupname: dynamic_db 
+
+#       remote_user: "{{ remote_user[hypervisor] }}" 
+
+#     when: 
+#       - terra_result.outputs.state_web is defined 
+#       - terra_result.outputs.state_db is defined 
+
+
+#   - name: Collect facts again 
+#     setup: 
+
+
+# ################################ 
+
+# # pause # 
+
+# ################################ 
+
+#   - name: Wait 300 seconds for port 22 to become open and contains the string "OpenSSH" 
+#     wait_for: 
+#     port: 22 
+#     host: '{{ vm_ip_web }}' 
+#     search_regex: OpenSSH 
+#     delay: 10 
+#     vars: 
+#     ansible_connection: local 
+#   when: vm_ip_web is defined 
+
+
+# - hosts: dynamic_web 
+
+
+#   tasks: 
+
+#     - name: create a website 
+
+#       include_role: 
+
+#       name: webserver 
