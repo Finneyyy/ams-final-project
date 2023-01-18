@@ -5,53 +5,66 @@
     github_repo2: https://github.com/spring-petclinic/spring-petclinic-rest
     nginx_version: latest
     node_version: 16.x
+    nginx_conf_file: /etc/nginx/nginx.conf
 
   tasks:
   - name: Install Docker
     apt:
-      name:  docker
+      name: docker
       state: latest
 
   - name: Install Java
     apt:
       name: openjdk-11-jdk
-      state: present
+      state: latest
 
   - name: Clone Repo 1
     git:
-      github_repo1: https://github.com/spring-petclinic/spring-petclinic-angular
+      repo: "{{ github_repo1 }}"
+      dest: /path/to/local/repo1
+      version: "{{ git_version }}"
 
   - name: Clone Repo 2
     git:
-      github_repo2: https://github.com/spring-petclinic/spring-petclinic-rest
+      repo: "{{ github_repo2 }}"
+      dest: /path/to/local/repo2
+      version: "{{ git_version }}"
 
   - name: Install nginx
     apt:
       name: nginx
       state: latest
-      version: latest
+      version: "{{ nginx_version }}"
+
+  - name: Download Node.js v16.x
+    shell: set -eo pipefail; curl -sL https://deb.nodesource.com/setup_16.x | bash
+
+  - name: Install Node.js
+    apt:
+      name: nodejs
+      state: latest
 
   - name: Configure nginx for Repo1
     lineinfile:
-      path: /etc/nginx/nginx.conf
-      line: "server { listen 80; server_name https://github.com/spring-petclinic/spring-petclinic-angular; location / {
-proxy_pass http://github.com/spring-petclinic/spring-petclinic-angular:22; proxy_http_version 1.1;
-proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade';
-proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
+      path: "{{ nginx_conf_file }}"
+      line: "server { listen 80; server_name {{ github_repo1 }}; location / {
+        proxy_pass http://{{ github_repo1 }}:80; proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
       insertafter: "#server {"
 
   - name: Configure nginx for Repo2
     lineinfile:
-      path: /etc/nginx/nginx.conf
-      line: "server { listen 80; server_name https://github.com/spring-petclinic/spring-petclinic-rest; location / {
-proxy_pass http://github.com/spring-petclinic/spring-petclinic-rest:22; proxy_http_version 1.1;
-proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade';
-proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
+      path: "{{ nginx_conf_file }}"
+      line: "server { listen 80; server_name {{ github_repo2 }}; location / {
+       proxy_pass http://{{ github_repo2 }}:80; proxy_http_version 1.1;
+       proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade';
+       proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
 
-  - name: Download Node.js v16.x
-    shell: curl -sL https://deb.nodesource.com/setup_16.x | bash
+  - name: Install Docker Compose
+    shell: set -eo pipefail; curl -sL
+     "https://github.com/docker/compose/releases/download/1.27.4/
+     docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
-
-    apt:
-      name: nodejs
-      state: latest
+  - name: Install Docker Swarm
+    shell: set -eo pipefail; apt-get install -y docker-swarm 
