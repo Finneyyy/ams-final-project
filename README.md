@@ -51,31 +51,31 @@ At the end, we were able to complete all the sprints and tasks:
 
 The Trello board can be accessed [here](https://trello.com/b/LcCodeyy/group-project) 
 
-## CI/CD Pipeline
+## Tools Used 
 
-This prject leans heavily on automated processes in the form of CI/CD, which models all parts of our integration workflow such as build, test, package and deploy stages. 
+This prject leans heavily on automated processes in the form of CI/CD, which models all parts of our integration workflow such as build, test, package and deploy stages. The majority of decisions were made based on familiarity and confidence with the tools, in order for us to be able to work efficiently.
 
-- **Jenkins**: With the CI/CD pipeline configured and enabled, each developer completes de feature development and commits to the main integration branch and the CI/CD pipeline is triggered to perform each of the individual integration stages. 
+- Kanban: We used the **Trello** board because it's and easy-to-use add-on power-ups that can help to assign members tasks, and set priority, and due dates.
+
+- Version Control System (VCS): We used **Git & GitHub** because its a VCS tools that we have been most exposed to and we are most familiar with. 
+
+- Database: **MySQL** - we will need to change from an in-memory database and onboard it to the cloud. MySQL is an easy-to-use database. 
+
+- Continuous Integration / Continuous Deployment (CI/CD): **Jenkins**. This helps automate the parts of software development related to building, testing, and deploying, facilitating continuous integration and continuous delivery.
+. With the CI/CD pipeline configured and enabled, each developer completes de feature development and commits to the main integration branch and the CI/CD pipeline is triggered to perform each of the individual integration stages. 
 
 ![](images/jenkins.PNG)
 
-## Tools Used 
-
-The majority of decisions were made based on familiarity and confidence with the tools, in order for us to be able to work efficiently.
-
-- Kanban: We used the **Trello** board because it's and easy-to-use add-on power-ups that can help to assign members tasks, and set priority, and due dates.
-- Version Control System (VCS): We used **Git & GitHub** because its a VCS tools that we have been most exposed to and we are most familiar with. 
-- Database: **MySQL** - we will need to change from an in-memory database and onboard it to the cloud. MySQL is an easy-to-use database. 
-- Continuous Integration / Continuous Deployment (CI/CD): **Jenkins**. This helps automate the parts of software development related to building, testing, and deploying, facilitating continuous integration and continuous delivery.
 - IaC & Config Management: **Terraform** and **Ansible**. These tools are very powerful, widely adapted, and work with most cloud infrastructures.
 - Cloud: **AWS** - Our training was focused on AWS. We already have some level of experience with it. 
 - Reverse Proxy: **NGINX** - Nginx is a web server that can also be used as a reverse proxy, load balancer, mail proxy, and HTTP cache. We are also familiar with NGINX.
 - Containerisation: **Docker** - Docker is the most popular in market share, familiarity and ease of use are key. It also comes with a large library of images that can be customized.
 - Orchestration Tool: **Docker Swarm**. Our training plan had changed and the Kubernetes module has been pushed after the final project. Swarm is a container orchestration tool built into Docker that allows us to run a network of containers across multiple host machines. 
 
+
 ## Risk Assessment 
 
-A risk assessment was designed to evaluate potential scenarios that may impact the project in a negative way. These measures could be implemented in the app such that these risks are less likely to occur. This initial risk assessment is shown below:
+During the project, a risk assessment was designed to evaluate potential scenarios that may impact the project in a negative way. This initial risk assessment is shown below:
 
 ![]()
 
