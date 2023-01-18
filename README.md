@@ -57,21 +57,24 @@ This prject leans heavily on automated processes in the form of CI/CD, which mod
 
 - Kanban: We used the **Trello** board because it's and easy-to-use add-on power-ups that can help to assign members tasks, and set priority, and due dates.
 
-- Version Control System (VCS): We used **Git & GitHub** because its a VCS tools that we have been most exposed to and we are most familiar with. 
+- Version Control System (VCS): **Git** was used for version control and all memebers of the team had their repositories hoted on **GitHub**. Each developer created a different branch to isolate from the main version of the apllication. The main branch also contained a **development** to integrate the different branches code to test. The structure of the branches lokk as follow:
+ ![](images/github.PNG)
 
 - Database: **MySQL** - we will need to change from an in-memory database and onboard it to the cloud. MySQL is an easy-to-use database. 
 
 - Continuous Integration / Continuous Deployment (CI/CD): **Jenkins**. This helps automate the parts of software development related to building, testing, and deploying, facilitating continuous integration and continuous delivery.
-. With the CI/CD pipeline configured and enabled, each developer completes de feature development and commits to the main integration branch and the CI/CD pipeline is triggered to perform each of the individual integration stages. 
+With the CI/CD pipeline configured and enabled, each developer completes the feature development and commits to the main integration branch and the CI/CD pipeline is triggered to perform each of the individual integration stages. 
 
 ![](images/jenkins.PNG)
 
 - IaC & Config Management: **Terraform** and **Ansible**. These tools are very powerful, widely adapted, and work with most cloud infrastructures.
+
 - Cloud: **AWS** - Our training was focused on AWS. We already have some level of experience with it. 
 - Reverse Proxy: **NGINX** - Nginx is a web server that can also be used as a reverse proxy, load balancer, mail proxy, and HTTP cache. We are also familiar with NGINX.
-- Containerisation: **Docker** - Docker is the most popular in market share, familiarity and ease of use are key. It also comes with a large library of images that can be customized.
-- Orchestration Tool: **Docker Swarm**. Our training plan had changed and the Kubernetes module has been pushed after the final project. Swarm is a container orchestration tool built into Docker that allows us to run a network of containers across multiple host machines. 
 
+- Containerisation: **Docker** - Docker is the most popular in market share, familiarity and ease of use are key. It also comes with a large library of images that can be customized.
+
+- Orchestration Tool: **Docker Swarm**. Our training plan had changed and the Kubernetes module has been pushed after the final project. Swarm is a container orchestration tool built into Docker that allows us to run a network of containers across multiple host machines. 
 
 ## Risk Assessment 
 
