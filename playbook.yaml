@@ -1,93 +1,93 @@
 - hosts: localhost
   vars:
-    git_version: latest
-    github_repo1: https://github.com/spring-petclinic/spring-petclinic-angular
-    github_repo2: https://github.com/spring-petclinic/spring-petclinic-rest
-    nginx_version: latest
-    node_version: 16.x
-    nginx_conf_file: /etc/nginx/nginx.conf
-    java_version: openjdk-11-jdk
-    docker_version: latest
+      git_version: latest
+      github_repo1: https://github.com/spring-petclinic/spring-petclinic-angular
+      github_repo2: https://github.com/spring-petclinic/spring-petclinic-rest
+      nginx_version: latest
+      node_version: 16.x
+      nginx_conf_file: /etc/nginx/nginx.conf
+      java_version: openjdk-11-jdk
+      docker_version: latest
 
   tasks:
-  - name: Install Docker
-    apt:
-      name: docker
-      state: latest
-      version: "{{ docker_version }}"
+      - name: Install Docker
+        apt:
+         name: docker
+         state: latest
+         version: "{{ docker_version }}"
 
-  - name: Install Java
-    apt:
-      name: openjdk-11-jdk
-      state: latest
-      version: "{{ java_version }}"
+      - name: Install Java
+        apt:
+         name: openjdk-11-jdk
+         state: latest
+         version: "{{ java_version }}"
 
-  - name: Clone Repo 1
-    git:
-      repo: "{{ github_repo1 }}"
-      dest: /path/to/local/repo1
-      version: "{{ git_version }}"
+      - name: Clone Repo 1
+        git:
+         repo: "{{ github_repo1 }}"
+         dest: /path/to/local/repo1
+         version: "{{ git_version }}"
 
-  - name: Clone Repo 2
-    git:
-      repo: "{{ github_repo2 }}"
-      dest: /path/to/local/repo2
-      version: "{{ git_version }}"
+      - name: Clone Repo 2
+        git:
+         repo: "{{ github_repo2 }}"
+         dest: /path/to/local/repo2
+         version: "{{ git_version }}"
 
-  - name: Install nginx
-    apt:
-      name: nginx
-      state: latest
-      version: "{{ nginx_version }}"
+      - name: Install nginx
+        apt:
+         name: nginx
+         state: latest
+         version: "{{ nginx_version }}"
 
-  - name: Download Node.js v16.x
-    shell: set -eo pipefail; curl -sL https://deb.nodesource.com/setup_16.x | bash
-    changed_when: false
+      - name: Download Node.js v16.x
+        shell: set -eo pipefail; curl -sL https://deb.nodesource.com/setup_16.x | bash
+        changed_when: false
   
-  - name: Configure nginx for Repo1
-    lineinfile:
-      path: "{{ nginx_conf_file }}"
-      line: "server { listen 80; server_name {{ github_repo1 }}; location / {
-        proxy_pass http://{{ github_repo1 }}:80; proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
-      insertafter: "#server {"
+      - name: Configure nginx for Repo1
+        lineinfile:
+        path: "{{ nginx_conf_file }}"
+        line: "server { listen 80; server_name {{ github_repo1 }}; location / {
+         proxy_pass http://{{ github_repo1 }}:80; proxy_http_version 1.1;
+         proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade';
+         proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
+        insertafter: "#server {"
 
-  - name: Configure nginx for Repo2
-    lineinfile:
-      path: "{{ nginx_conf_file }}"
-      line: "server { listen 80; server_name {{ github_repo2 }}; location / {
-       proxy_pass http://{{ github_repo2 }}:80; proxy_http_version 1.1;
-       proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade';
-       proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
+      - name: Configure nginx for Repo2
+        lineinfile:
+         path: "{{ nginx_conf_file }}"
+         line: "server { listen 80; server_name {{ github_repo2 }}; location / {
+          proxy_pass http://{{ github_repo2 }}:80; proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade';
+          proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
 
-  - name: Install Docker Compose
-    shell: set -eo pipefail; curl -sL 
-     "https://github.com/docker/compose/releases/download/1.27.4/
-     docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    changed_when: false
+      - name: Install Docker Compose
+        shell: set -eo pipefail; curl -sL 
+         "https://github.com/docker/compose/releases/download/1.27.4/
+         docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+        changed_when: false
 
-  - name: Install Docker Swarm
-    shell: set -eo pipefail; apt-get install -y docker-swarm 
-    changed_when: false
+      - name: Install Docker Swarm
+        shell: set -eo pipefail; apt-get install -y docker-swarm 
+        changed_when: false
 
-  - name: Get EC2 Instance IPs
-    command: terraform output ec2_instance_ips 
-    register: ec2_instance_ips 
-    changed_when: false
+      - name: Get EC2 Instance IPs
+        command: terraform output ec2_instance_ips 
+        register: ec2_instance_ips 
+        changed_when: false
 
-  - name: Set Instance ID's as variable
-    set_fact:
-      ec2_instance_ip_list: "{{ ec2_instance_ips.stdout_lines }}" 
+      - name: Set Instance ID's as variable
+        set_fact:
+         ec2_instance_ip_list: "{{ ec2_instance_ips.stdout_lines }}" 
 
-  - name: Get db endpoint URL 
-    command: terraform output db_endpoint_url 
-    register: db_endpoint_url 
-    changed_when: false
+      - name: Get db endpoint URL 
+        command: terraform output db_endpoint_url 
+        register: db_endpoint_url 
+        changed_when: false
 
-  - name: Set endpoint URL as variable
-    set_fact:
-      db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
+      - name: Set endpoint URL as variable
+        set_fact:
+         db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
 
 #     ## OPTION 2##
 #   - name: create teraform.tfvars
