@@ -43,6 +43,12 @@
       - name: Download Node.js v16.x
         shell: set -eo pipefail; curl -sL https://deb.nodesource.com/setup_16.x | bash
         changed_when: false
+
+      - name: Install Node.js v16.x
+        apt:
+            name: Node.js
+            state: latest
+            version: "{{ node_version }}"
   
       - name: Configure nginx for Repo1
         lineinfile:
