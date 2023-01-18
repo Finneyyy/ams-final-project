@@ -71,3 +71,47 @@
   - name: Install Docker Swarm
     shell: set -eo pipefail; apt-get install -y docker-swarm 
     changed_when: false
+
+    ##OPTION 1##
+
+  - name: Get EC2 Instance IPs
+    command: terraform output ec2_instance_ips #terraform_output extracts all specified info from a terraform file 
+    register: ec2_instance_ips #register stores the output of the terraform_output command in an Ansible variable
+
+  - name: Set Instance ID's as variable
+    set_fact:
+      ec2_instance_ip_list: "{{ ec2_instance_ips.stdout_lines }}" #set_fact creates a variable that contains the IP's as a list, can then reference the variable in the playbook when needed
+
+  - name: Get db endpoint URL 
+    command: terraform output db_endpoint_url #same process as the Instance IP's
+    register: db_endpoint_url 
+
+  - name: Set endpoint URL as variable
+    set_fact:
+      db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
+
+    ## OPTION 2##
+  - name: create teraform.tfvars
+    include_role:
+    name: terra-provision
+
+  - name: init terraform if .terraform is not there
+    shell: terraform init
+    args: 
+    chfir: "{{ playbook_dir }}//terraform/.terraform/"
+
+  - name:  Run Terraform Script 
+    terraform:
+      project_path: "{{ playbook_dir }}/terraform/"
+      state: "{{ aws_instance_state }}"
+      variables:
+      aws_region: "{{ aws_region }}"
+      aws_access_key_id: "{{ aws_access_key_id }}"
+      aws_secret_access_key: "{{ aws_secret_access_key }}"
+      aws_ami_id: "{{ aws_ami_id }}"
+      public_key: "{{ public_key }}"
+      register: terra_result #output needs to be added to terra_result variable 
+
+  - name: show terra_result
+    debug:
+    var: terra_result
