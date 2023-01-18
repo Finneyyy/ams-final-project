@@ -43,8 +43,9 @@ At the begining, the state of the Trello board was:
 ![](images/trello1.PNG)
 ![](images/trello2.PNG)
 
-During the project, we had to do a few changes to the board, as you can see below:
-
+During the project, we had to do a few changes to the deadline, as you can see below:
+![](images/trello3.PNG)
+![](images/trello4.PNG)
 
 At the end, we were able to complete all the sprints and tasks:
 ![]()
@@ -69,7 +70,8 @@ With the CI/CD pipeline configured and enabled, each developer completes the fea
 
 - IaC & Config Management: **Terraform** and **Ansible**. These tools are very powerful, widely adapted, and work with most cloud infrastructures.
 
-- Cloud: **AWS** - Our training was focused on AWS. We already have some level of experience with it. 
+- Cloud: **AWS** - We created and deployed our instances using AWS cloud provider. We already have some level of experience with it. 
+
 - Reverse Proxy: **NGINX** - Nginx is a web server that can also be used as a reverse proxy, load balancer, mail proxy, and HTTP cache. We are also familiar with NGINX.
 
 - Containerisation: **Docker** - Docker is the most popular in market share, familiarity and ease of use are key. It also comes with a large library of images that can be customized.
