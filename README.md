@@ -88,7 +88,7 @@ Overall structure of the CI/CD pipeline:
 ## Risk Assessment 
 
 During the project, a risk assessment was designed to evaluate potential scenarios that may impact the project in a negative way. This initial risk assessment is shown below:
-![](images/risk.png)
+![](images/risk.PNG)
 
 However the risk assessment was not reviewed at the end of the projects. 
 
