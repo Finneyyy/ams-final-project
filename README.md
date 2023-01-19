@@ -83,6 +83,9 @@ With the CI/CD pipeline configured and enabled, each developer completes the fea
 
 - Orchestration Tool: **Docker Swarm** - lacking description
 
+Overall structure of the CI/CD pipeline is:
+![](images/tools.png)
+
 ## Risk Assessment 
 
 During the project, a risk assessment was designed to evaluate potential scenarios that may impact the project in a negative way. This initial risk assessment is shown below:
