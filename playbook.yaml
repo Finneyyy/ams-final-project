@@ -3,17 +3,27 @@
   vars: 
       terraform_version: 0.15.5
   tasks:
-      - name: Download Terraform
-        get_url:
-          url: https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip
-          dest: /usr/local/bin/terraform
-          mode: 755
-          
-      - name: Init Terraform
-        command: chdir=terraform/ terraform init 
+    - name: download terraform
+      get_url:
+        url: https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip
+        dest: /usr/local/bin/
+        mode: 755
+        remote_src: yes
 
-      - name: apply Terraform
-        command: chdir=terraform/ terraform apply 
+    - name: unzip terraform
+      unarchive:
+        src: /usr/local/bin/terraform_{{ terraform_version }}_linux_amd64.zip
+        dest: /usr/local/bin/
+        remote_src: yes
+
+    - name: rename terraform
+      command: mv /usr/local/bin/terraform /usr/local/bin/terraform_{{ terraform_version }}_linux_amd64 /usr/local/bin/terraform
+
+    - name: Init Terraform
+      command: chdir=terraform/ terraform init 
+
+    - name: apply Terraform
+      command: chdir=terraform/ terraform apply 
       
 
 - hosts: all
