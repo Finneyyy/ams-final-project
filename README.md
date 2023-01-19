@@ -83,7 +83,7 @@ With the CI/CD pipeline configured and enabled, each developer completes the fea
 
 - Orchestration Tool: **Docker Swarm** - lacking description
 
-Overall structure of the CI/CD pipeline is:
+Overall structure of the CI/CD pipeline:
 ![](images/tools.png)
 
 ## Risk Assessment 
