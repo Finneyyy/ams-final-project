@@ -1,4 +1,4 @@
-- hosts: 'localhost'
+- hosts: localhost
   vars: 
       terraform_version: latest
   tasks:
