@@ -1,6 +1,5 @@
 ---
-- hosts: docker_manager
-  gather_facts: False 
+- hosts: docker_manager 
   remote_user: ubuntu
   tasks:
   - name: Init Swarm
@@ -23,7 +22,6 @@
 
 - hosts: docker_worker
   remote_user: ubuntu
-  gather-facts: False
   vars:
     token: "{{ hostvars[groups['manager'][0]]['worker_token']['stdout'] }}"
     manager: "{{ hostvars[groups['manager'][0]]['inventory_hostname'] }}"
