@@ -51,6 +51,14 @@ At the end, we were able to complete all the sprints and tasks:
 
 The Trello board can be accessed [here](https://trello.com/b/LcCodeyy/group-project) 
 
+## CI/CD Pipeline
+
+This prject leans heavily on automated processes in the form of CI/CD, which models all parts of our integration workflow such as build, test, package and deploy stages. 
+
+- **Jenkins**: With the CI/CD pipeline configured and enabled, each developer completes de feature development and commits to the main integration branch and the CI/CD pipeline is triggered to perform each of the individual integration stages. 
+
+![](images/jenkins.PNG)
+
 ## Tools Used 
 
 The majority of decisions were made based on familiarity and confidence with the tools, in order for us to be able to work efficiently.
