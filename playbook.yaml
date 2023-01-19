@@ -1,20 +1,3 @@
-- hosts: localhost
-  connection: local
-  vars: 
-      terraform_version: latest
-  tasks:
-    - name: download terraform
-      community.general.terraform:
-        project_path: terraform/
-        state: present
-  
-    - name: Init Terraform
-      command: chdir=terraform/ terraform init 
-
-    - name: apply Terraform
-      command: chdir=terraform/ terraform apply 
-      
-
 - hosts: all
   vars:
       git_version: latest
