@@ -57,6 +57,8 @@ The Trello board can be accessed [here](https://trello.com/b/LcCodeyy/group-proj
 
 This prject leans heavily on automated processes in the form of CI/CD, which models all parts of our integration workflow such as build, test, package and deploy stages. The majority of decisions were made based on familiarity and confidence with the tools, in order for us to be able to work efficiently.
 
+- We used **VSCode** as a development environment to access a **Ubuntu** virtual machine hosted on AWS.
+
 - Kanban: We used the **Trello** board because it's and easy-to-use add-on power-ups that can help to assign members tasks, and set priority, and due dates.
 
 - Version Control System (VCS): **Git** was used for version control and all memebers of the team had their repositories hoted on **GitHub**. Each developer created a different branch to isolate from the main version of the apllication. The main branch also contained a **development** to integrate the different branches code to test. The structure of the branches lokk as follow:
@@ -75,7 +77,7 @@ With the CI/CD pipeline configured and enabled, each developer completes the fea
 
 - Reverse Proxy: **NGINX** - Nginx is a web server that can also be used as a reverse proxy, load balancer, mail proxy, and HTTP cache. We are also familiar with NGINX.
 
-- Containerisation: **Docker** - Docker is the most popular in market share, familiarity and ease of use are key. It also comes with a large library of images that can be customized.
+- Containerisation: **Docker** - Docker was used to containerize the Spring app to simplify and accelerate the workflow. The _Eclipse Temurin_ which has a built-in JDK was used to define the base image. The image's application code was stored in the _app_ directory. The instructions from the Maeven and pom.xml were copied from the host machine into the /app directory. We run the command to install the dependencies into the image. Then the source code was add into the image. At the end, we specify which command we want to run when the image is executed inside a container. 
 
 - Orchestration Tool: **Docker Swarm**. Our training plan had changed and the Kubernetes module has been pushed after the final project. Swarm is a container orchestration tool built into Docker that allows us to run a network of containers across multiple host machines. 
 
