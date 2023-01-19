@@ -16,7 +16,7 @@ The Project involves:
 
 ## Scope 
 
-We will be working with these 2 externally developed applications:
+We worked with these 2 externally developed applications:
 
 * https://github.com/spring-petclinic/spring-petclinic-angular
 * https://github.com/spring-petclinic/spring-petclinic-rest
@@ -24,9 +24,9 @@ We will be working with these 2 externally developed applications:
 The **spring-petclinic-angular** serves as a front-end client using _AngularJS_, whilst the **spring-petclinic-rest** serves as an _API_ using _Java_.
 
 The applicaion should be deployed considering the following:
-* Multiple Environment support: How can a developer test their new features on an environment before merging their changes to the main branch?
-* Automation: How can changes on the GitHub repository automatically build and deploy to testing and live environments?
-* Running costs: What are your monthly estimates? How could they be improved?
+* Multiple Environment support - test new features on an environment before merging their changes to the main branch
+* Automation - changes on the GitHub repository automatically build and deploy to testing and live environments
+* Running costs: the cost to develop the application and how they can be improved
 
 ## Metrics/Performance Standards:
 
@@ -37,13 +37,14 @@ The applicaion should be deployed considering the following:
 
 ## Team Organization and Project Management 
 
-Our team adopted an Agile approach to the project management, organizng the project into sprints, assigning scrum roles and providing a product a backlog. For project tracking we used a Trello board. Backlog Items were assigned story points, acceptance criteria and MoSCoW prioritisation, and moved from project backlog, to sprint backlog, to review and then complete as the project progressed. 
+Our team adopted an Agile approach to the project management, organizng the project into sprints, assigning scrum roles and providing a product a backlog. For project tracking we used a Trello board. Backlog Items were assigned story points, acceptance criteria and _MoSCoW_ prioritisation, and moved from project _backlog_, to _sprint_ backlog, to -doing_, _reviewing_ and then _done_ as the project progressed. 
 At the begining, the state of the Trello board was:
 
 ![](images/trello1.PNG)
 ![](images/trello2.PNG)
 
 During the project, we had to do a few changes to the deadline, as you can see below:
+
 ![](images/trello3.PNG)
 ![](images/trello4.PNG)
 
