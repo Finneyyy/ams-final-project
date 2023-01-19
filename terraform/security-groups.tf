@@ -1,4 +1,4 @@
-# security group
+# security group web
 resource "aws_security_group" "allow_web" {
   name        = "allow_web"
   description = "Allow web in traffic"
@@ -31,5 +31,32 @@ resource "aws_security_group" "allow_web" {
 
   tags = {
     Name = "allow_web"
+  }
+}
+
+# security group DB
+resource "aws_security_group" "allow_db_connect" {
+  name        = "allow_db"
+  description = "Allow DB in out traffic"
+  vpc_id      = aws_vpc.production-vpc.id
+
+  ingress {
+    description = "MySQL"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+
+  }
+  egress {
+    description = "MySQL"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "allow_DB"
   }
 }
