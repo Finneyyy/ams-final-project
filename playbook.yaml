@@ -95,6 +95,23 @@
         set_fact:
             db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
 
+      - name: Replace URL
+        git:
+            repo: "{{ github_repo1 }}"
+            replace:
+              path: rest/src/main/resources/application-mysql.properties
+              regexp: 'jdbc:mysql://localhost:3306/petclinic?useUnicode'
+              replace: "{{ db_endpoint_url.stdout }}"
+
+      - name: Replace URL2
+        git:
+            repo: "{{ github_repo2 }}"
+            replace:
+              path: angular/src/environments/environment.ts
+              regexp: 'http://localhost:9966/petclinic/api/'
+              replace: "{{ db_endpoint_url.stdout }}"
+
+
 #     ## OPTION 2##
 #   - name: create teraform.tfvars
 #     include_role:
