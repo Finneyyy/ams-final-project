@@ -70,9 +70,9 @@ This prject leans heavily on automated processes in the form of CI/CD, which mod
 With the CI/CD pipeline configured and enabled, each developer completes the feature development and commits to the main integration branch and the CI/CD pipeline is triggered to perform each of the individual integration stages. 
 ![](images/jenkins.PNG)
 
-- **Ansible** - 
+- **Ansible** - lacking description
 
-- **Terraform** - 
+- **Terraform** - lacking description
 ![](images/terraform.png)
 
 - **AWS** cloud - We created and deployed our instances using AWS cloud provider. 
@@ -81,7 +81,7 @@ With the CI/CD pipeline configured and enabled, each developer completes the fea
 
 - Containerisation: **Docker** - Docker was used to containerize the Spring app to simplify and accelerate the workflow. The _Eclipse Temurin_ which has a built-in JDK was used to define the base image. The image's application code was stored in the _app_ directory. The instructions from the Maeven and pom.xml were copied from the host machine into the /app directory. We run the command to install the dependencies into the image. Then the source code was add into the image. At the end, we specify which command we want to run when the image is executed inside a container. 
 
-- Orchestration Tool: **Docker Swarm**. Our training plan had changed and the Kubernetes module has been pushed after the final project. Swarm is a container orchestration tool built into Docker that allows us to run a network of containers across multiple host machines. 
+- Orchestration Tool: **Docker Swarm** - lacking description
 
 ## Risk Assessment 
 
