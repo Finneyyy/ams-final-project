@@ -71,16 +71,16 @@ With the CI/CD pipeline configured and enabled, each developer completes the fea
 
 - **Ansible** - Ansible was used to provision and configure the software required to successfully deploy the application through the pipeline.
 
-- **Terraform** - lacking description
+- **Terraform** - Terraform is an IAC tool, used primarily by DevOps teams to automate various infrastructure tasks. The provisioning of cloud resources, for instance, is one of the main use cases of Terraform. It’s a cloud-agnostic, open-source provisioning tool written in the Go language and created by HashiCorp. It allows you to describe your complete infrastructure in the form of code. Even if your servers come from different providers such as AWS or Azure, Terraform helps you build and manage these resources in parallel across providers. Think of Terraform as connective tissue and common language that you can utilize to manage your entire IT stack.
 ![](images/terraform.png)
 
 - **AWS** cloud - We created and deployed our instances using AWS cloud provider. 
 
-- Reverse Proxy: **NGINX** - A reverse proxy using NGINX was implemented, to listen to port 80 on the host machine and performs a proxy pass, directing traffic from port 80 to the API ...
+- Reverse Proxy: **NGINX** - A reverse proxy using NGINX was implemented, to listen to ports and performs a proxy pass, directing traffic to other applications. 
 
 - Containerisation: **Docker** - Docker was used to containerize the Spring app to simplify and accelerate the workflow. The _Eclipse Temurin_ which has a built-in JDK was used to define the base image. The image's application code was stored in the _app_ directory. The instructions from the Maeven and pom.xml were copied from the host machine into the /app directory. We run the command to install the dependencies into the image. Then the source code was add into the image. At the end, we specify which command we want to run when the image is executed inside a container. 
 
-- Orchestration Tool: **Docker Swarm** - lacking description
+- Orchestration Tool: **Docker Swarm** - (Definiton not sent by the developer)
 
 Overall structure of the CI/CD pipeline:
 ![](images/tools.png)
@@ -88,14 +88,11 @@ Overall structure of the CI/CD pipeline:
 ## Risk Assessment 
 
 During the project, a risk assessment was designed to evaluate potential scenarios that may impact the project in a negative way. This initial risk assessment is shown below:
+![](images/risk.png)
 
-![]()
-
-Some of the control measures implemented in the project to reduce the likelihood of a risk occurring are as follows:
+However the risk assessment was not reviewed at the end of the projects. 
 
 
-## Testing
 
-Testing is a crucial part of software development. 
 
 
