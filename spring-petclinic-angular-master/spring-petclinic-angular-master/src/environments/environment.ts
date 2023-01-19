@@ -23,5 +23,5 @@
 
 export const environment = {
   production: false,
-  REST_API_URL: 'http://localhost:9966/petclinic/api/'
+  REST_API_URL: 'http://localhost:9966/petclinic/api/' // localhost must be changed to the public ip of the ec2 instance setup outputted with tf
 };
