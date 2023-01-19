@@ -4,7 +4,7 @@
       terraform_version: latest
   tasks:
     - name: Install Terraform
-      apt:
+      apt_package:
           name: Terraform
           state: latest
           
