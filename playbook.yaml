@@ -108,8 +108,8 @@
             repo: "{{ github_repo2 }}"
             replace:
               path: angular/src/environments/environment.ts
-              regexp: 'http://localhost:9966/petclinic/api/'
-              replace: "{{ db_endpoint_url.stdout }}"
+              regexp: 'localhost'
+              replace: "{{ ec2_instance_ips.stdout_lines }}"
 
 
 #     ## OPTION 2##
