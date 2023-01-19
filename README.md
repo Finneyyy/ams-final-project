@@ -59,7 +59,7 @@ This prject leans heavily on automated processes in the form of CI/CD, which mod
 
 - We used **VSCode** as a development environment to access a **Ubuntu** virtual machine hosted on AWS.
 
-- Kanban: We used the **Trello** board because it's and easy-to-use add-on power-ups that can help to assign members tasks, and set priority, and due dates.
+- Kanban: Project tracking was done using **Trello**. Some tasks were assigned story points, acceptance criteria and a MoSCoW prioritisation and moved through the stages from project backlog to Done as the project progressed.
 
 - Version Control System (VCS): **Git** was used for version control and all memebers of the team had their repositories hoted on **GitHub**. Each developer created a different branch to isolate from the main version of the apllication. The main branch also contained a **development** to integrate the different branches code to test. The structure of the branches lokk as follow:
  ![](images/github.PNG)
@@ -68,14 +68,16 @@ This prject leans heavily on automated processes in the form of CI/CD, which mod
 
 - Continuous Integration / Continuous Deployment (CI/CD): **Jenkins**. This helps automate the parts of software development related to building, testing, and deploying, facilitating continuous integration and continuous delivery.
 With the CI/CD pipeline configured and enabled, each developer completes the feature development and commits to the main integration branch and the CI/CD pipeline is triggered to perform each of the individual integration stages. 
-
 ![](images/jenkins.PNG)
 
-- IaC & Config Management: **Terraform** and **Ansible**. These tools are very powerful, widely adapted, and work with most cloud infrastructures.
+- **Ansible** - 
 
-- Cloud: **AWS** - We created and deployed our instances using AWS cloud provider. We already have some level of experience with it. 
+- **Terraform** - 
+![](images/terraform.png)
 
-- Reverse Proxy: **NGINX** - Nginx is a web server that can also be used as a reverse proxy, load balancer, mail proxy, and HTTP cache. We are also familiar with NGINX.
+- **AWS** cloud - We created and deployed our instances using AWS cloud provider. 
+
+- Reverse Proxy: **NGINX** - A reverse proxy using NGINX was implemented, to listen to port 80 on the host machine and performs a proxy pass, directing traffic from port 80 to the API ...
 
 - Containerisation: **Docker** - Docker was used to containerize the Spring app to simplify and accelerate the workflow. The _Eclipse Temurin_ which has a built-in JDK was used to define the base image. The image's application code was stored in the _app_ directory. The instructions from the Maeven and pom.xml were copied from the host machine into the /app directory. We run the command to install the dependencies into the image. Then the source code was add into the image. At the end, we specify which command we want to run when the image is executed inside a container. 
 
