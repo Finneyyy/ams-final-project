@@ -3,17 +3,17 @@
   vars: 
       terraform_version: latest
   tasks:
-    - name: Install Terraform
-      apt_package:
+      - name: Install Terraform
+        apt_package:
           name: Terraform
           state: latest
           
     
-    - name: Init Terraform
-      command: chdir=terraform/ terraform init 
+      - name: Init Terraform
+        command: chdir=terraform/ terraform init 
 
-    - name: apply Terraform
-      command: chdir=terraform/ terraform apply 
+      - name: apply Terraform
+        command: chdir=terraform/ terraform apply 
       
 
 - hosts: all
