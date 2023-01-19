@@ -45,7 +45,7 @@ At the begining, the state of the Trello board was:
 
 During the project, we had to do a few changes to the deadline, as you can see below:
 
-![](images/trello3.JPG)
+![](images/trello3.png)
 
 At the end, we were able to complete all the sprints and tasks:
 ![]()
