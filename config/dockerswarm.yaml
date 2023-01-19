@@ -3,6 +3,7 @@
   remote_user: ubuntu
   tasks:
   - name: Init Swarm
-    hosts: docker_manager
     command: "docker swarm init --advertise-addr {{ inventory_hostname }}"
 
+  - name: Deploy stack
+    command: docker stack deploy --compose-file docker-compose.yml
