@@ -4,6 +4,8 @@
       terraform_version: 0.15.5
   tasks:
     - name: download terraform
+      become: true
+      become_user: root
       get_url:
         url: https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip
         dest: /usr/local/bin/
