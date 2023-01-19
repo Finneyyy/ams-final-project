@@ -1,2 +1,3 @@
-.images/
 .git/
+Dockerfile-usage.txt
+layout.txt
