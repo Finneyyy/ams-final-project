@@ -1,4 +1,6 @@
 ---
+- hosts: all
+  tasks:
   - name: Init Swarm
     hosts: docker_manager
     gather_facts: False 
