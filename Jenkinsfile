@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh "bash test.sh"
+                sh "ng test"
             }
         }
         // stage('Deploy') {
