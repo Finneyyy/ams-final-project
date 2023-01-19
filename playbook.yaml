@@ -1,26 +1,13 @@
 - hosts: localhost
   connection: local
   vars: 
-      terraform_version: 0.15.5
+      terraform_version: latest
   tasks:
     - name: download terraform
-      become: true
-      become_user: root
-      get_url:
-        url: https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip
-        dest: /usr/local/bin/
-        mode: 755
-        
-
-    - name: unzip terraform
-      unarchive:
-        src: /usr/local/bin/terraform_{{ terraform_version }}_linux_amd64.zip
-        dest: /usr/local/bin/
-        
-
-    - name: rename terraform
-      command: mv /usr/local/bin/terraform /usr/local/bin/terraform_{{ terraform_version }}_linux_amd64 /usr/local/bin/terraform
-
+      community.general.terraform:
+        project_path: terraform/
+        state: present
+  
     - name: Init Terraform
       command: chdir=terraform/ terraform init 
 
