@@ -5,7 +5,7 @@
   tasks:
       - name: Install Terraform
         apt:
-          name: Terraform
+          name: terraform
           state: latest
           
       - name: Init Terraform
