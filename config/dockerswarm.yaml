@@ -41,4 +41,4 @@
         debug: var=worker.stdout
 
       - name: any errors 
-        debug: var=worker.
+        debug: var=worker.stderr
