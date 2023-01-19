@@ -1,7 +1,7 @@
 - hosts: localhost
   connection: local
   vars: 
-      terraform_version: latest
+      terraform_version: 0.15.5
   tasks:
       - name: Download Terraform
         get_url:
