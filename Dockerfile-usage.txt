@@ -1,7 +1,0 @@
-Written by: Eoin
-Custom dockerfiles have been written and added to their respective locations. 
-
-Frontend needs docker (obviously), nginx and nodejs to run. Nginx version can be latest, but nodejs has only been tested on version 16.3-alpine. 
-Backend needs java installed, so openjdk is needed. Was tested on openjdk-11
-
-docker run --rm -p 8080:8080 <immage>
