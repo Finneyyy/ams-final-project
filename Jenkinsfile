@@ -6,15 +6,15 @@ pipeline {
                 sh "bash ansible.sh"
             }
         }
-        stage('Test') {
-            steps {
-                sh "ng test"
-            }
-        }
-        // stage('Deploy') {
+        // stage('Test') {
         //     steps {
-        //         sh "ansible-playbook -i inventory.yaml playbook.yaml"
+        //         sh "ng test"
         //     }
         // }
+        stage('Deploy') {
+            steps {
+                sh "ansible-playbook -i inventory.yaml playbook.yaml"
+            }
+        }
     }
 }
