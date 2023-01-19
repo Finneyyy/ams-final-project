@@ -3,10 +3,11 @@
   vars: 
       terraform_version: latest
   tasks:
-      - name: Install Terraform
-        apt:
-          name: terraform
-          state: latest
+      - name: Download Terraform
+        get_url:
+          url: https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip
+          dest: /usr/local/bin/terraform
+          mode: 755
           
       - name: Init Terraform
         command: chdir=terraform/ terraform init 
