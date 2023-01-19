@@ -1,3 +1,0 @@
-backend - All the files for the backend
-frontend - all the files for the frontend
-config - contains ansible roles for swarm manager and worker
