@@ -1,10 +1,10 @@
 ---
-- hosts: all
+- hosts: docker_manager
+  gather_facts: False 
+  remote_user: ubuntu
   tasks:
   - name: Init Swarm
     hosts: docker_manager
-    gather_facts: False 
-    remote_user: ubuntu
     command: "docker swarm init --advertise-addr {{ inventory_hostname }}"
       
   - name: Export Manager Token
@@ -21,10 +21,14 @@
   - name: Show worker token
     debug: var=swarm-worker-token.stdout
 
+- hosts: docker_worker
+  remote_user: ubuntu
+  gather-facts: False
+  vars:
+    token: "{{ hostvars[groups['manager'][0]]['worker_token']['stdout'] }}"
+    manager: "{{ hostvars[groups['manager'][0]]['inventory_hostname'] }}"
+  tasks:
   - name: Join swarm 
-    hosts: docker_worker
-    remote_user: ubuntu
-    gather-facts: False
     vars:
       token: "{{ hostvars[groups['manager'][0]]['worker_token']['stdout'] }}"
       manager: "{{ hostvars[groups['manager'][0]]['inventory_hostname'] }}"
