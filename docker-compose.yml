@@ -16,6 +16,8 @@ services:
     container_name: backend
     build: ./backend
     image: 5pectr3/petclinic-backend:latest
+    deploy:
+      replicas: 1
     networks:
       - petclinic-net
     ports:
