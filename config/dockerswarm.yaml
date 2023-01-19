@@ -25,11 +25,6 @@
   vars:
     token: "{{ hostvars[groups['manager'][0]]['worker_token']['stdout'] }}"
     manager: "{{ hostvars[groups['manager'][0]]['inventory_hostname'] }}"
-  tasks:
-  - name: Join swarm 
-    vars:
-      token: "{{ hostvars[groups['manager'][0]]['worker_token']['stdout'] }}"
-      manager: "{{ hostvars[groups['manager'][0]]['inventory_hostname'] }}"
     tasks:
       - name: Join Swarm Cluster as worker 
         command: docker swarm join --token {{ token }} {{ manager }}:2377 # 2377 is cluster management port
