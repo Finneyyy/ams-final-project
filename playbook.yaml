@@ -4,11 +4,10 @@
       terraform_version: latest
   tasks:
       - name: Install Terraform
-        apt_package:
+        apt:
           name: Terraform
           state: latest
           
-    
       - name: Init Terraform
         command: chdir=terraform/ terraform init 
 
