@@ -1,10 +1,12 @@
 - hosts: 'localhost'
+  vars: 
+      terraform_version: latest
   tasks:
     - name: Install Terraform
       apt:
           name: Terraform
           state: latest
-          version: "latest"
+          version: "{{ terraform_version }}"
     
     - name: Init Terraform
       command: chdir=terraform/ terraform init 
