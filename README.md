@@ -48,7 +48,7 @@ During the project, we had to do a few changes to the deadline, as you can see b
 ![](images/trello3.png)
 
 At the end, we were able to complete all the sprints and tasks:
-![]()
+![](images/trello4.png)
 
 The Trello board can be accessed [here](https://trello.com/b/LcCodeyy/group-project) 
 
@@ -63,7 +63,7 @@ This prject leans heavily on automated processes in the form of CI/CD, which mod
 - Version Control System (VCS): **Git** was used for version control and all memebers of the team had their repositories hoted on **GitHub**. Each developer created a different branch to isolate from the main version of the apllication. The main branch also contained a **development** to integrate the different branches code to test. The structure of the branches lokk as follow:
  ![](images/github.PNG)
 
-- Database: **MySQL** - we will need to change from an in-memory database and onboard it to the cloud. MySQL is an easy-to-use database. 
+- Database: **MySQL** - We changed from an in-memory database to the AWS RDS database. 
 
 - Continuous Integration / Continuous Deployment (CI/CD): **Jenkins**. This helps automate the parts of software development related to building, testing, and deploying, facilitating continuous integration and continuous delivery.
 With the CI/CD pipeline configured and enabled, each developer completes the feature development and commits to the main integration branch and the CI/CD pipeline is triggered to perform each of the individual integration stages. 
