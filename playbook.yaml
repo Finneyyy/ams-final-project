@@ -1,3 +1,18 @@
+- hosts: 'localhost'
+  tasks:
+    - name: Install Terraform
+      apt:
+          name: Terraform
+          state: latest
+          version: "latest"
+    
+    - name: Init Terraform
+      command: chdir=terraform/ terraform init 
+
+    - name: apply Terraform
+      command: chdir=terraform/ terraform apply 
+      
+
 - hosts: all
   vars:
       git_version: latest
