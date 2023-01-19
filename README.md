@@ -69,7 +69,7 @@ This prject leans heavily on automated processes in the form of CI/CD, which mod
 With the CI/CD pipeline configured and enabled, each developer completes the feature development and commits to the main integration branch and the CI/CD pipeline is triggered to perform each of the individual integration stages. 
 ![](images/jenkins.PNG)
 
-- **Ansible** - lacking description
+- **Ansible** - Ansible was used to provision and configure the software required to successfully deploy the application through the pipeline.
 
 - **Terraform** - lacking description
 ![](images/terraform.png)
