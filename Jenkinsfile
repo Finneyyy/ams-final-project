@@ -12,7 +12,7 @@ pipeline {
                 // then run terraform destroy (destroys all network/ec2)
                 script{
                     if(fileExists('terraform/terraform.tfstate')){
-                        sh 'terraform -chdir="terraform/" destroy'
+                        sh 'terraform -chdir="terraform/" destroy -auto-approve'
                     }
                 }
             }
