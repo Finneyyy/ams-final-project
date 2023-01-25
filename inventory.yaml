@@ -1,6 +1,6 @@
 all:
   hosts:
     web-server:
-    
+    # add code that would take either the terraform output or the  
 
-    
+
