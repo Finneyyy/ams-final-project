@@ -5,7 +5,8 @@ pipeline {
             // scripts go here
             steps {
                 sh "ls"
-                sh "ansible.sh"
+                sh "sudo chmod +x ansible.sh"
+                sh "./ansible.sh"
             }
         }
 
