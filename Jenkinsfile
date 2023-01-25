@@ -10,8 +10,10 @@ pipeline {
                 
                 // added check to see if terraform tfstate exists
                 // then run terraform destroy (destroys all network/ec2)
-                if (fileExists('terraform/terraform.tfstate')){
-                    sh 'terraform -chdir="terraform/" destroy'
+                script{
+                    if(fileExists('terraform/terraform.tfstate')){
+                        sh 'terraform -chdir="terraform/" destroy'
+                    }
                 }
             }
         }
