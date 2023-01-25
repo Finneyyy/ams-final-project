@@ -13,10 +13,11 @@ pipeline {
         stage('Run Terraform') {
             // its using the repo so really should only need the terraform commands
             // https://stackoverflow.com/questions/47274254/how-do-i-run-terraform-init-from-a-different-folder
+            // https://stackoverflow.com/questions/60497054/integrating-the-terraform-plan-output-into-jenkins
             steps {
                 sh 'terraform -chdir="terraform/" init '
-                sh 'terraform -chdir="terraform/" plan '
-                sh 'terraform -chdir="terraform/" apply'
+                sh 'terraform -chdir="terraform/" plan -auto-approve'
+                sh 'terraform -chdir="terraform/" apply -auto-approve'
             }
         }
 
