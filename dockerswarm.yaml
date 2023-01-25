@@ -1,5 +1,3 @@
-# - hosts: web-server
-#   remote_user: ubuntu
 tasks:
 - name: Init Swarm
   command: "docker swarm init --advertise-addr {{ inventory_hostname }}"
