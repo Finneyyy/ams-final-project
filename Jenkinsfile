@@ -7,6 +7,12 @@ pipeline {
                 sh "ls"
                 sh "sudo chmod +x ansible.sh"
                 sh "./ansible.sh"
+                
+                // added check to see if terraform tfstate exists
+                // then run terraform destroy (destroys all network/ec2)
+                if (fileExists('terraform/terraform.tfstate')){
+                    sh 'terraform -chdir="terraform/" destroy'
+                }
             }
         }
 
