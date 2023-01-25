@@ -4,6 +4,7 @@ pipeline {
         stage('Install Dependencies') {
             // scripts go here
             steps {
+                sh "ls"
                 sh "ansible.sh"
             }
         }
