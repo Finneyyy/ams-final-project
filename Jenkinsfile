@@ -37,7 +37,7 @@ pipeline {
         //  }
         stage('Deploy') {
             steps {
-                sh "ansible-playbook -i playbook.yaml" // add inventory back at some stage
+                sh "ansible-playbook -i inventory.yaml playbook.yaml" // add inventory back at some stage
             }
         }
     }
