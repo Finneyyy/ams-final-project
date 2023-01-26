@@ -40,13 +40,17 @@ pipeline {
 
         stage('build and push docker image'){
             steps {
-                sh 'cd angular'
-                sh 'docker build -t 5pectr3/petclinic-frontend:latest .'
-                sh '../rest'
+                dir('angular/'){
+                    sh 'docker build -t 5pectr3/petclinic-frontend:latest .'
+                    sh 'docker push 5pectr3/petclinic-frontend:latest'
+                }
+                dir('rest/'){
                 sh 'docker build -t 5pectr3/petclinic-backend:latest .'
+                sh 'docker push 5pectr3/petclinic-backend:latest'
+                }
 
-                sh 'docker push 5pectr3/petclinic-frontend'
-                sh 'docker push 5pectr3/petclinic-backend'
+                
+                
             }
         }
 
