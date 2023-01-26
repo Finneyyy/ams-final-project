@@ -17,7 +17,6 @@ pipeline {
                 }
             }
         }
-
         // added by eoin
         stage('Run Terraform') {
             // its using the repo so really should only need the terraform commands
@@ -34,8 +33,8 @@ pipeline {
             // an ansible playbook that clones down the repo,
             // changes the config using replace
             steps {
-                // git clone cristiana repo
-                // run ansible-playbook config.yml
+                sh "git clone https://github.com/cristianacmc/ams-final-project"
+                sh 'ansible-playbook chdir="ams-final-project/" config.yml'
             }
         }
         stage('build and push docker image'){

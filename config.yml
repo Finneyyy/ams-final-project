@@ -26,7 +26,7 @@ tasks:
 - name: Replace database endpoint url
   replace:
     path: rest/src/main/resources/application-mysql.properties
-    regexp: 'jdbc:mysql://localhost:3306/petclinic?useUnicode'
+    regexp: 'localhost:3306'
     replace: "{{ db_endpoint_url.stdout }}"
 
 # frontend
