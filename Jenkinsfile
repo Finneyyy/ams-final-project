@@ -34,9 +34,10 @@ pipeline {
             // changes the config using replace
             steps {
                 sh "git clone https://github.com/cristianacmc/ams-final-project"
-                sh 'ansible-playbook chdir="ams-final-project/" config.yml'
+                sh 'ansible-playbook -chdir="ams-final-project/" config.yml'
             }
         }
+
         stage('build and push docker image'){
             steps {
                 sh 'chdir="angular/" docker build -t 5pectr3/petclinic-frontend:latest .'
