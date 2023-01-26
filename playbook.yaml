@@ -101,6 +101,30 @@
         regexp: 'localhost:3306' # STRING CHANGED
         replace: "{{ db_endpoint_url.stdout }}"
 
+
+# call the container use docker exec to ls then find path for replace module
+# then register it as variable
+
+  - name: ls the container
+    community.docker.docker_container_exec:
+      container: petclinic-frontend
+      command: /bin/bash -c "ls -la"
+      register: frontend-result
+
+  - name: print frontend-result
+    debug:
+      var: result.stdout
+
+
+  - name: Do the ConFiG 
+    hosts: web-server
+    connection: docker
+    post_tasks:
+      - name: replace db URL
+
+      - name: replace ec2 ip
+
+
   # UPDATED
   - name: Replace URL2
     git:
@@ -110,8 +134,11 @@
         regexp: 'localhost'
         replace: "{{ ec2_instance_ip.stdout_lines }}" # REGISTER CHANGED
 
+
+
 # runs the dockerswarm stuff
 - hosts: all
   become: true
   roles:
     - dockerswarm
+
