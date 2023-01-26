@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    image: 5pectr3/petclinic-frontend:latest
+    deploy:
+      replicas: 1
+    depends_on: 
+    - backend
+    networks:
+      - petclinic-net
+    ports:
+      - "80:80"
+  backend:
+    container_name: backend
+    build: ./backend
+    image: 5pectr3/petclinic-backend:latest
+    deploy:
+      replicas: 1
+    networks:
+      - petclinic-net
+    ports:
+      - "9966:9966"
+
+networks: 
+  petclinic-net:
