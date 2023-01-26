@@ -1,5 +1,5 @@
 resource "local_file" "inventory_file" {
-  filename = "inventory.yaml"
+  filename = "./host.ini"
   content = <<EOF
   [web-server]
   ${aws_instance.web-server.public_ip}

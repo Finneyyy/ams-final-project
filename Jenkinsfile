@@ -34,7 +34,7 @@ pipeline {
             // changes the config using replace
             steps {
                 sh "git clone https://github.com/cristianacmc/ams-final-project"
-                sh 'ansible-playbook -chdir="ams-final-project/" config.yml'
+                sh 'ansible-playbook -chdir="ams-final-project/" -i host.ini config.yml'
             }
         }
 
@@ -56,7 +56,7 @@ pipeline {
 
         stage('Deploy main playbook') {
             steps {
-                sh "ansible-playbook -i inventory.yaml playbook.yaml" // add inventory back at some stage
+                sh "ansible-playbook -i host.ini playbook.yaml" // add inventory back at some stage
             }
         }
     }
