@@ -26,6 +26,8 @@ pipeline {
                 sh 'terraform -chdir="terraform/" init '
                 sh 'terraform -chdir="terraform/" plan'
                 sh 'terraform -chdir="terraform/" apply -auto-approve'
+                sh 'ls -la'
+                sh 'pwd'
             }
         }
 
