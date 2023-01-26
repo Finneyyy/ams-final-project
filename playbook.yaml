@@ -100,7 +100,7 @@
             repo: "{{ github_repo1 }}"
             replace:
               path: rest/src/main/resources/application-mysql.properties
-              regexp: 'jdbc:mysql://localhost:3306/petclinic?useUnicode'
+              regexp: 'localhost'
               replace: "{{ db_endpoint_url.stdout }}"
 
       - name: Replace URL2
