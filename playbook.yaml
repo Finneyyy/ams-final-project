@@ -8,6 +8,7 @@
     nginx_conf_file: /etc/nginx/nginx.conf
     java_version: openjdk-11-jdk
     docker_version: latest
+    docker_swarm_playbook: dockerswarm.yaml
 
   tasks:
   - name: Install Docker
@@ -79,6 +80,7 @@
   - name: Set Instance ID's as variable
     set_fact:
       ec2_instance_ip_list: "{{ ec2_instance_ip.stdout_lines }}"
+  
   - name: Get db endpoint URL
     # updated
     command: terraform output rds_endpoint
@@ -89,13 +91,9 @@
     set_fact:
       db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
 
-  - name: Run the swarm playbook
-    import_tasks:
-      file: dockerswarm.yaml
-    #import_playbook: dockerswarm.yaml # this does work according to docs, vscode just shitting the bed
-  # updated
   - name: Replace URL
     # WE NEED TO FIGURE OUT HOW TO CONNECT TO THE CONTAINERS AND THEN CHANGE THE FILES NECESSARY
+    # updated
     git:
       repo: "{{ github_repo1 }}" # MAYBE CHANGE THIS
       replace:
@@ -112,15 +110,8 @@
         regexp: 'localhost'
         replace: "{{ ec2_instance_ip.stdout_lines }}" # REGISTER CHANGED
 
-  - name: test docker
-
-  - name: purely testing
-
-    #################
-    # Testing place #
-    #################
-
-    # this probably needs to be installed via cmd: ansible-galaxy collection install community.docker
-    community.docker.docker:
-      remote_addr: inventory_hostname
-
+# runs the dockerswarm stuff
+- hosts: all
+  become: true
+  roles:
+    - dockerswarm
