@@ -23,18 +23,6 @@
       state: latest
       version: "{{ java_version }}"
 
-  - name: Clone Repo 1
-    git:
-      repo: "{{ github_repo1 }}"
-      dest: /path/to/local/repo1
-      version: "{{ git_version }}"
-
-  - name: Clone Repo 2
-    git:
-      repo: "{{ github_repo2 }}"
-      dest: /path/to/local/repo2
-      version: "{{ git_version }}"
-
   - name: Install nginx
     apt:
       name: nginx
@@ -50,17 +38,6 @@
       name: Node.js
       state: latest
       version: "{{ node_version }}"
-
-    # - name: Configure nginx for Repo1
-    #   lineinfile:
-    #     path: "{{ nginx_conf_file }}"
-    #     line: "server { listen 80; server_name {{ github_repo1 }}; location / { proxy_pass http://{{ github_repo1 }}:80; proxy_http_version 1.1; proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade'; proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
-    #     insertafter: "#server {"
-
-    # - name: Configure nginx for Repo2
-    #   lineinfile:
-    #     path: "{{ nginx_conf_file }}"
-    #     line: "server { listen 80; server_name {{ github_repo2 }}; location / { proxy_pass http://{{ github_repo2 }}:80; proxy_http_version 1.1; proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade'; proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
 
   - name: Install Docker Compose
     shell: set -eo pipefail; curl -sL "https://github.com/docker/compose/releases/download/1.27.4/ docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -136,9 +113,5 @@
 
 
 
-# runs the dockerswarm stuff
-- hosts: all
-  become: true
-  roles:
-    - dockerswarm
+
 
