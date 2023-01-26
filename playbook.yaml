@@ -42,8 +42,6 @@
       dest: /home/ubuntu/docker-compose.yml
       owner: ubuntu
 
-
-    
   # runs the dockerswarm stuff
 - hosts: all
   become: true
