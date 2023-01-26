@@ -8,4 +8,4 @@ data "template_file" "inventory" {
 resource "local_file" "inventory_file" {
   content = data.template_file.inventory.rendered
   filename = "inventory.yaml"
-}
+} 
