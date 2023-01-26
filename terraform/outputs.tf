@@ -6,7 +6,7 @@ output "ec2_instance_ip" {
   value = aws_instance.web-server.public_ip
 }
 
-output "ec2_instance_dns_name" {
+output "ec2_instance_dns" {
   value = aws_instance.web-server.public_dns
 }
 
