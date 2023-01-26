@@ -1,0 +1,15 @@
+# is replacing original playbook replace
+tasks:
+# backend
+- name: Replace URL
+  replace:
+    path: rest/src/main/resources/application-mysql.properties
+    regexp: 'jdbc:mysql://localhost:3306/petclinic?useUnicode'
+    replace: "{{ db_endpoint_url.stdout }}"
+
+# frontend
+- name: Replace URL2
+  replace:
+    path: angular/src/environments/environment.ts
+    regexp: 'localhost'
+    replace: "{{ ec2_instance_ips.stdout_lines }}"
