@@ -1,37 +1,38 @@
 # is replacing original playbook replace
-tasks:
-# backend
-- name: Get EC2 Instance IP from Terraform
-  command: terraform output ec2_instance_ip
-  register: ec2_instance_ip
-  changed_when: false
+- hosts: all
+  tasks:
+  # backend
+  - name: Get EC2 Instance IP from Terraform
+    command: terraform output ec2_instance_ip
+    register: ec2_instance_ip
+    changed_when: false
 
-- name: Set Instance IP as variable
-  set_fact:
-    ec2_instance_ip_list: "{{ ec2_instance_ips.stdout_lines }}"
+  - name: Set Instance IP as variable
+    set_fact:
+      ec2_instance_ip_list: "{{ ec2_instance_ips.stdout_lines }}"
 
-- name: Get db endpoint URL
-  command: terraform output db_endpoint_url
-  register: db_endpoint_url
-  changed_when: false
+  - name: Get db endpoint URL
+    command: terraform output db_endpoint_url
+    register: db_endpoint_url
+    changed_when: false
 
-- name: Set endpoint URL as variable
-  set_fact:
-    db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
+  - name: Set endpoint URL as variable
+    set_fact:
+      db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
 
-- name: Add host to inventory
-  add_host:
-    hostname: '{{ ec2_instance_ip }}'
+  - name: Add host to inventory
+    add_host:
+      hostname: '{{ ec2_instance_ip }}'
 
-- name: Replace database endpoint url
-  replace:
-    path: rest/src/main/resources/application-mysql.properties
-    regexp: 'localhost:3306'
-    replace: "{{ db_endpoint_url.stdout }}"
+  - name: Replace database endpoint url
+    replace:
+      path: rest/src/main/resources/application-mysql.properties
+      regexp: 'localhost:3306'
+      replace: "{{ db_endpoint_url.stdout }}"
 
-# frontend
-- name: Replace backend url
-  replace:
-    path: angular/src/environments/environment.ts
-    regexp: 'localhost'
-    replace: "{{ ec2_instance_ip.stdout_lines }}"
+  # frontend
+  - name: Replace backend url
+    replace:
+      path: angular/src/environments/environment.ts
+      regexp: 'localhost'
+      replace: "{{ ec2_instance_ip.stdout_lines }}"
