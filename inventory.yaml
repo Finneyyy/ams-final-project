@@ -1,5 +1,5 @@
 all:
   hosts:
-    web-server:
-
+    web-server: 
+      
 

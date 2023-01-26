@@ -4,7 +4,7 @@ pipeline {
         stage('Install Dependencies') {
             // scripts go here
             steps {
-                sh "ls"
+                // installs ansible and terraform
                 sh "sudo chmod +x ansible.sh"
                 sh "./ansible.sh"
                 
@@ -30,12 +30,25 @@ pipeline {
             }
         }
 
-        // stage('Test') {
-        //     steps {
-        //         sh "bash test.sh"
-        //      }
-        //  }
-        stage('Deploy') {
+        stage('run playbook to change config'){
+            // an ansible playbook that clones down the repo,
+            // changes the config using replace
+            steps {
+                // git clone cristiana repo
+                // run ansible-playbook config.yml
+            }
+        }
+        stage('build and push docker image'){
+            steps {
+                sh 'chdir="angular/" docker build -t 5pectr3/petclinic-frontend:latest .'
+                sh 'chdir="rest/" docker build -t 5pectr3/petclinic-backend:latest .'
+
+                sh 'docker push 5pectr3/petclinic-frontend'
+                sh 'docker push 5pectr3/petclinic-backend'
+            }
+        }
+
+        stage('Deploy main playbook') {
             steps {
                 sh "ansible-playbook -i inventory.yaml playbook.yaml" // add inventory back at some stage
             }

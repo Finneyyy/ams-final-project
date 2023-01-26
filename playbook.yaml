@@ -8,9 +8,6 @@
     docker_version: latest
 
   tasks:
-  - name: Add host to inventory 
-    add_host:
-      hostname: ec2_instance_ip
 
   - name: Add Docker GPG apt Key
     apt_key:
@@ -41,9 +38,11 @@
 
   - name: copy to remote system
     copy: 
-      src: docker-compose.yml
-      dest: /home/ubutnu/docker-compose.yml
+      src: role/dockerswarm/files/docker-compose.yml
+      dest: /home/ubuntu/docker-compose.yml
       owner: ubuntu
+
+
     
   # runs the dockerswarm stuff
 - hosts: all
