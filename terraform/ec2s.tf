@@ -3,7 +3,8 @@ resource "aws_instance" "web-server" {
   ami               = "ami-026e72e4e468afa7b"
   instance_type     = "t2.micro"
   availability_zone = "eu-west-1a"
-  key_name          = "MasterKeys" # TO BE CHANGED
+  key_name          = "MasterKeys" # CHANGED
+
 
   network_interface {
     device_index         = 0
