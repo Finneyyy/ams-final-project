@@ -1,7 +1,7 @@
 data "template_file" "inventory" {
   template = file("./templates/inventory.tpl")
   vars = {
-    "web-server" = join("\n", aws_instance.web-server.public_ip)
+    "web-server" = aws_instance.web-server[0].public_ip
   }
 }
 
