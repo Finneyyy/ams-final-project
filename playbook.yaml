@@ -1,115 +1,66 @@
 - hosts: all
+  become: true
   vars:
     git_version: latest
-    github_repo1: https://github.com/spring-petclinic/spring-petclinic-angular
-    github_repo2: https://github.com/spring-petclinic/spring-petclinic-rest
     nginx_version: latest
-    node_version: 16.19
     nginx_conf_file: /etc/nginx/nginx.conf
     java_version: openjdk-11-jdk
     docker_version: latest
-    docker_swarm_playbook: dockerswarm.yaml
 
   tasks:
-  - name: Install Docker
+  - name: Add host to inventory 
+    add_host:
+      hostname: ec2_instance_ip
+
+  - name: Add Docker GPG apt Key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Add Docker Repository
+    apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu focal stable
+      state: present
+
+  - name: Update apt and install docker and compose
     apt:
-      name: docker
+      name: 
+        - docker-ce
+        - docker-compose
       state: latest
-      version: "{{ docker_version }}"
+      update_cache: true
 
   - name: Install Java
-    apt:
-      name: openjdk-11-jdk
-      state: latest
-      version: "{{ java_version }}"
+    shell: apt install -y openjdk-11-jre-headless 
 
   - name: Install nginx
-    apt:
-      name: nginx
-      state: latest
-      version: "{{ nginx_version }}"
+    shell: apt install -y nginx
 
-  - name: Download Node.js v16.19
-    shell: set -eo pipefail; curl -sL https://deb.nodesource.com/setup_16.x | bash
-    changed_when: false
+  - name: Install Node.js
+    shell: apt install -y nodejs
 
-  - name: Install Node.js v16.19
-    apt:
-      name: Node.js
-      state: latest
-      version: "{{ node_version }}"
+  - name: copy to remote system
+    copy: 
+      src: docker-compose.yml
+      dest: /home/ubutnu/docker-compose.yml
+      owner: ubuntu
+    
+  # runs the dockerswarm stuff
+- hosts: all
+  become: true
+  roles:
+    - dockerswarm
+  tasks: 
+  # call the container use docker exec to ls then find path for replace module
+  # then register it as variable
 
-  - name: Install Docker Compose
-    shell: set -eo pipefail; curl -sL "https://github.com/docker/compose/releases/download/1.27.4/ docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    changed_when: false
+  - name: install ansible 
+    shell: sudo apt install ansible
 
-  - name: Install Docker Swarm
-    shell: set -eo pipefail; apt-get install -y docker-swarm
-    changed_when: false
-
-  # updated
-  - name: Get EC2 Instance IPs
-    command: terraform output ec2_instance_ip
-    register: ec2_instance_ip
-    changed_when: false
-
-  # updated
-  - name: Set Instance ID's as variable
-    set_fact:
-      ec2_instance_ip_list: "{{ ec2_instance_ip.stdout_lines }}"
-  
-  - name: Get db endpoint URL
-    # updated
-    command: terraform output rds_endpoint
-    register: db_endpoint_url
-    changed_when: false
-
-  - name: Set endpoint URL as variable
-    set_fact:
-      db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
-
-  - name: Replace URL
-    # WE NEED TO FIGURE OUT HOW TO CONNECT TO THE CONTAINERS AND THEN CHANGE THE FILES NECESSARY
-    # updated
-    git:
-      repo: "{{ github_repo1 }}" # MAYBE CHANGE THIS
-      replace:
-        path: src/main/resources/application-mysql.properties # CHANGE THIS PATHING
-        regexp: 'localhost:3306' # STRING CHANGED
-        replace: "{{ db_endpoint_url.stdout }}"
+  - name: Install docker galaxy
+    shell: ansible-galaxy collection install community.docker
 
 
-# call the container use docker exec to ls then find path for replace module
-# then register it as variable
-
-  - name: ls the container
-    community.docker.docker_container_exec:
-      container: petclinic-frontend
-      command: /bin/bash -c "ls -la"
-      register: frontend-result
-
-  - name: print frontend-result
-    debug:
-      var: result.stdout
-
-
-  - name: Do the ConFiG 
-    hosts: web-server
-    connection: docker
-    post_tasks:
-      - name: replace db URL
-
-      - name: replace ec2 ip
-
-
-  # UPDATED
-  - name: Replace URL2
-    git:
-      repo: "{{ github_repo2 }}" # MAYBE CHANGE THIS
-      replace:
-        path: spring-petclinic-angular/src/environments/environment.ts # PATH CHANGED
-        regexp: 'localhost'
-        replace: "{{ ec2_instance_ip.stdout_lines }}" # REGISTER CHANGED
 
 
 
