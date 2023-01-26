@@ -1,9 +1,6 @@
----
-- hosts: web-server
-  remote_user: ubuntu
-  tasks:
-  - name: Init Swarm
-    command: "docker swarm init --advertise-addr {{ inventory_hostname }}"
+tasks:
+- name: Init Swarm
+  command: "docker swarm init --advertise-addr {{ inventory_hostname }}"
 
-  - name: Deploy stack
-    command: docker stack deploy --compose-file docker-compose.yml
+- name: Deploy stack
+  command: docker stack deploy --compose-file docker-compose.yml

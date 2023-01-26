@@ -5,6 +5,7 @@ resource "aws_instance" "web-server" {
   availability_zone = "eu-west-1a"
   key_name          = "MasterKeys" # CHANGED
 
+
   network_interface {
     device_index         = 0
     network_interface_id = aws_network_interface.produciton-subnet-nic.id

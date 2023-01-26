@@ -8,6 +8,6 @@ terraform {
 }
 
 provider "aws" {
-  shared_credentials_files = ["~/.aws/credentials"] # TO BE CHANGED
+  shared_credentials_files = ["~/.aws/credentials"] # TO BE CHANGED | we need to get a credentials file onto the jenkins/user_data on ec2
   region                   = "eu-west-1"
 }

@@ -1,304 +1,117 @@
 - hosts: all
   vars:
-      git_version: latest
-      github_repo1: https://github.com/spring-petclinic/spring-petclinic-angular
-      github_repo2: https://github.com/spring-petclinic/spring-petclinic-rest
-      nginx_version: latest
-      node_version: 16.x
-      nginx_conf_file: /etc/nginx/nginx.conf
-      java_version: openjdk-11-jdk
-      docker_version: latest
+    git_version: latest
+    github_repo1: https://github.com/spring-petclinic/spring-petclinic-angular
+    github_repo2: https://github.com/spring-petclinic/spring-petclinic-rest
+    nginx_version: latest
+    node_version: 16.19
+    nginx_conf_file: /etc/nginx/nginx.conf
+    java_version: openjdk-11-jdk
+    docker_version: latest
+    docker_swarm_playbook: dockerswarm.yaml
 
   tasks:
-      - name: Install Docker
-        apt:
-            name: docker
-            state: latest
-            version: "{{ docker_version }}"
+  - name: Install Docker
+    apt:
+      name: docker
+      state: latest
+      version: "{{ docker_version }}"
 
-      - name: Install Java
-        apt:
-            name: openjdk-11-jdk
-            state: latest
-            version: "{{ java_version }}"
+  - name: Install Java
+    apt:
+      name: openjdk-11-jdk
+      state: latest
+      version: "{{ java_version }}"
 
-      - name: Clone Repo 1
-        git:
-            repo: "{{ github_repo1 }}"
-            dest: /path/to/local/repo1
-            version: "{{ git_version }}"
+  - name: Install nginx
+    apt:
+      name: nginx
+      state: latest
+      version: "{{ nginx_version }}"
 
-      - name: Clone Repo 2
-        git:
-            repo: "{{ github_repo2 }}"
-            dest: /path/to/local/repo2
-            version: "{{ git_version }}"
+  - name: Download Node.js v16.19
+    shell: set -eo pipefail; curl -sL https://deb.nodesource.com/setup_16.x | bash
+    changed_when: false
 
-      - name: Install nginx
-        apt:
-            name: nginx
-            state: latest
-            version: "{{ nginx_version }}"
+  - name: Install Node.js v16.19
+    apt:
+      name: Node.js
+      state: latest
+      version: "{{ node_version }}"
 
-      - name: Download Node.js v16.x
-        shell: set -eo pipefail; curl -sL https://deb.nodesource.com/setup_16.x | bash
-        changed_when: false
+  - name: Install Docker Compose
+    shell: set -eo pipefail; curl -sL "https://github.com/docker/compose/releases/download/1.27.4/ docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    changed_when: false
 
-      - name: Install Node.js v16.x
-        apt:
-            name: Node.js
-            state: latest
-            version: "{{ node_version }}"
+  - name: Install Docker Swarm
+    shell: set -eo pipefail; apt-get install -y docker-swarm
+    changed_when: false
+
+  # updated
+  - name: Get EC2 Instance IPs
+    command: terraform output ec2_instance_ip
+    register: ec2_instance_ip
+    changed_when: false
+
+  # updated
+  - name: Set Instance ID's as variable
+    set_fact:
+      ec2_instance_ip_list: "{{ ec2_instance_ip.stdout_lines }}"
   
-      - name: Configure nginx for Repo1
-        lineinfile:
-            path: "{{ nginx_conf_file }}"
-            line: "server { listen 80; server_name {{ github_repo1 }}; location / {
-             proxy_pass http://{{ github_repo1 }}:80; proxy_http_version 1.1;
-             proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade';
-             proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
-            insertafter: "#server {"
-
-      - name: Configure nginx for Repo2
-        lineinfile:
-            path: "{{ nginx_conf_file }}"
-            line: "server { listen 80; server_name {{ github_repo2 }}; location / {
-             proxy_pass http://{{ github_repo2 }}:80; proxy_http_version 1.1;
-             proxy_set_header Upgrade $http_upgrade; proxy_set_header Connection 'upgrade';
-             proxy_set_header Host $host; proxy_cache_bypass $http_upgrade; } }"
-
-      - name: Install Docker Compose
-        shell: set -eo pipefail; curl -sL 
-         "https://github.com/docker/compose/releases/download/1.27.4/
-         docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        changed_when: false
-
-      - name: Install Docker Swarm
-        shell: set -eo pipefail; apt-get install -y docker-swarm 
-        changed_when: false
-
-      - name: Get EC2 Instance IPs
-        command: terraform output ec2_instance_ips 
-        register: ec2_instance_ips 
-        changed_when: false
-
-      - name: Set Instance ID's as variable
-        set_fact:
-            ec2_instance_ip_list: "{{ ec2_instance_ips.stdout_lines }}" 
-
-      - name: Get db endpoint URL 
-        command: terraform output db_endpoint_url 
-        register: db_endpoint_url 
-        changed_when: false
-
-      - name: Set endpoint URL as variable
-        set_fact:
-            db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
-
-      - name: Replace URL
-        git:
-            repo: "{{ github_repo1 }}"
-            replace:
-              path: rest/src/main/resources/application-mysql.properties
-              regexp: 'jdbc:mysql://localhost:3306/petclinic?useUnicode'
-              replace: "{{ db_endpoint_url.stdout }}"
-
-      - name: Replace URL2
-        git:
-            repo: "{{ github_repo2 }}"
-            replace:
-              path: angular/src/environments/environment.ts
-              regexp: 'localhost'
-              replace: "{{ ec2_instance_ips.stdout_lines }}"
-
-
-#     ## OPTION 2##
-#   - name: create teraform.tfvars
-#     include_role:
-#     name: terra-provision
-
-#   - name: init terraform if .terraform is not there
-#     shell: terraform init
-#     args: 
-#     chfir: "{{ playbook_dir }}//terraform/.terraform/"
-
-#   - name:  Run Terraform Script 
-#     terraform:
-#       project_path: "{{ playbook_dir }}/terraform/"
-#       state: "{{ aws_instance_state }}"
-#       variables:
-#       aws_region: "{{ aws_region }}"
-#       aws_access_key_id: "{{ aws_access_key_id }}"
-#       aws_secret_access_key: "{{ aws_secret_access_key }}"
-#       aws_ami_id: "{{ aws_ami_id }}"
-#       public_key: "{{ public_key }}"
-#       register: terra_result #output needs to be added to terra_result variable 
+  - name: Get db endpoint URL
+    # updated
+    command: terraform output rds_endpoint
+    register: db_endpoint_url
+    changed_when: false
 
-#   - name: show terra_result
-#     debug:
-#     var: terra_result
+  - name: Set endpoint URL as variable
+    set_fact:
+      db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
 
-#   - name: set vm_ip / name
-#     set_fact:
+  - name: Replace URL
+    # WE NEED TO FIGURE OUT HOW TO CONNECT TO THE CONTAINERS AND THEN CHANGE THE FILES NECESSARY
+    # updated
+    git:
+      repo: "{{ github_repo1 }}" # MAYBE CHANGE THIS
+      replace:
+        path: src/main/resources/application-mysql.properties # CHANGE THIS PATHING
+        regexp: 'localhost:3306' # STRING CHANGED
+        replace: "{{ db_endpoint_url.stdout }}"
 
-#     vm_ip_web: "{{ terra_result.outputs.public_ip_web.value }}"
-#     vm_ip_db: "{{ terra_result.outputs.public_ip_db.value }}"
 
-#     when: 
-#      - terra_result.outputs.state_web is defined
-#      - terra_result.outputs.state_db is defined 
+# call the container use docker exec to ls then find path for replace module
+# then register it as variable
 
-#   - name: Create Dynamic Inventory
+  - name: ls the container
+    community.docker.docker_container_exec:
+      container: petclinic-frontend
+      command: /bin/bash -c "ls -la"
+      register: frontend-result
 
-#     block:
-#      - name: remove old dynamic group_vars file
-#        file:
-#          path: "{{ item }}"
-#          state: absent
-#        with_items:
-#         - group_vars/dynamic_web.yaml
-#         - group_vars/dynamic_db.yaml
-  
-#      - name: create new centos group_vars file
-#        file:
-#         path: "{{ item }}" 
-#         state: touch
-#     with_items:
-#      - group_vars/dynamic_web.yaml
-#      - group_vars/dynamic_db.yaml
+  - name: print frontend-result
+    debug:
+      var: result.stdout
 
-#   - name: create the inventory directory
-#     file:
-#       path: inventory/
-#       state: directory
 
-#   - name: remove old dynamic host file
-#     file: 
-#       path: inventory/hosts
-#       state: absent
+  - name: Do the ConFiG 
+    hosts: web-server
+    connection: docker
+    post_tasks:
+      - name: replace db URL
 
-#   - name: create new dynamic host file
+      - name: replace ec2 ip
 
-#     file: 
-#       path: inventory/hosts
-#       state: touch
 
-#   - name: add retrieved IP to file
-#     blockinfile:
-#       path: group_vars/dynamic_web.yaml
-#       marker: "" 
+  # UPDATED
+  - name: Replace URL2
+    git:
+      repo: "{{ github_repo2 }}" # MAYBE CHANGE THIS
+      replace:
+        path: spring-petclinic-angular/src/environments/environment.ts # PATH CHANGED
+        regexp: 'localhost'
+        replace: "{{ ec2_instance_ip.stdout_lines }}" # REGISTER CHANGED
 
-#       block: | 
 
-#         --- 
-#         ansible_host: {{ vm_ip_web }} 
 
-#         ansible_user: {{ remote_user[hypervisor] }} 
 
-#         become_user: {{ remote_user[hypervisor] }} 
 
-#         remote_user: {{ remote_user[hypervisor] }} 
-
-#         become: true 
-
-#   - name: add retrieved IP to file 
-
-#     blockinfile: 
-
-#      path: group_vars/dynamic_db.yml 
-
-#      marker: "" 
-
-#      block: | 
-
-#         --- 
-
-#         ansible_host: {{ vm_ip_db }} 
-
-#         ansible_user: {{ remote_user[hypervisor] }} 
-
-#         become_user: {{ remote_user[hypervisor] }} 
-
-#         remote_user: {{ remote_user[hypervisor] }} 
-
-#         become: true 
-
-#         ... 
-
-#   - name: add retrieved IP to file 
-
-#     blockinfile: 
-
-#      path: "inventory/hosts" 
-
-#      marker: "" 
-
-#      block: | 
-
-#         [dynamic_web] 
-
-#         {{ vm_ip_web }} 
-         
-
-#         [dynamic_db] 
-
-#         {{ vm_ip_db }} 
-         
-
-#   - name: Add host 
-
-#     add_host: 
-
-#       hostname: "{{ vm_ip_web }}" 
-
-#       groupname: dynamic_web 
-
-#       remote_user: "{{ remote_user[hypervisor] }}" 
-
-  
-#   - name: Add host 
-
-#     add_host: 
-
-#       hostname: "{{ vm_ip_db }}" 
-
-#       groupname: dynamic_db 
-
-#       remote_user: "{{ remote_user[hypervisor] }}" 
-
-#     when: 
-#       - terra_result.outputs.state_web is defined 
-#       - terra_result.outputs.state_db is defined 
-
-
-#   - name: Collect facts again 
-#     setup: 
-
-
-# ################################ 
-
-# # pause # 
-
-# ################################ 
-
-#   - name: Wait 300 seconds for port 22 to become open and contains the string "OpenSSH" 
-#     wait_for: 
-#     port: 22 
-#     host: '{{ vm_ip_web }}' 
-#     search_regex: OpenSSH 
-#     delay: 10 
-#     vars: 
-#     ansible_connection: local 
-#   when: vm_ip_web is defined 
-
-
-# - hosts: dynamic_web 
-
-
-#   tasks: 
-
-#     - name: create a website 
-
-#       include_role: 
-
-#       name: webserver 
