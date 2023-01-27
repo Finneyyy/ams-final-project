@@ -39,7 +39,7 @@
 
   - name: copy to remote system
     copy: 
-      src: role/dockerswarm/files/docker-compose.yml
+      src: docker-compose.yml
       dest: /home/ubuntu/docker-compose.yml
       owner: ubuntu
 
