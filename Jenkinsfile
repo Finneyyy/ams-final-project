@@ -23,7 +23,7 @@ pipeline {
 
         stage('run playbook to change config'){
             steps {
-                sh 'ansible-playbook config.yml'
+                sh 'ansible-playbook -i inventory.yaml config.yml'
             }
         }
 
