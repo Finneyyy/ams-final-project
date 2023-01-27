@@ -18,6 +18,6 @@ COPY . .
 RUN mvn clean package
 
 FROM openjdk:8
-COPY --from=build /target/rest-2.6.2.jar app.jar
+COPY --from=build /target/spring-petclinic-rest-2.6.2.jar app.jar
 EXPOSE 9966
 ENTRYPOINT [ "java", "-jar", "app.jar" ]
