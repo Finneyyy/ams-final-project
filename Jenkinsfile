@@ -23,6 +23,7 @@ pipeline {
             // https://stackoverflow.com/questions/47274254/how-do-i-run-terraform-init-from-a-different-folder
             // https://stackoverflow.com/questions/60497054/integrating-the-terraform-plan-output-into-jenkins
             steps {
+                sh 'terraform destroy -auto-approve'
                 sh 'terraform -chdir="terraform/" init '
                 sh 'terraform -chdir="terraform/" plan'
                 sh 'terraform -chdir="terraform/" apply -auto-approve'
