@@ -63,7 +63,7 @@ pipeline {
         stage('Deploy main playbook') {
             steps {
                 // sh "ansible-playbook -i inventory.yaml playbook.yaml" // add inventory back at some stage
-                ansiblePlaybook credentialsId: 'MasterKeys', disableHostChecking: true, installation: 'ansible-config', inventory: 'inventory.yaml', playbook: 'playbook.yaml'
+                ansiblePlaybook credentialsId: 'MasterKeys', disableHostKeyChecking: true, installation: 'ansible-config', inventory: 'inventory.yaml', playbook: 'playbook.yaml'
             }
         }
     }
