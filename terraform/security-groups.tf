@@ -4,14 +4,6 @@ resource "aws_security_group" "allow_web" {
   description = "Allow web in traffic"
   vpc_id      = aws_vpc.production-vpc.id
 
-  # not needed  
-  # ingress {
-  #   description = "SSH"
-  #   from_port   = 22
-  #   to_port     = 22
-  #   protocol    = "tcp"
-  #   cidr_blocks = ["0.0.0.0/0"]
-  # }
   ingress {
     description = "HTTP"
     from_port   = 80
