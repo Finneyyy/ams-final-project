@@ -48,15 +48,6 @@
   become: true
   roles:
     - dockerswarm
-  tasks: 
-  # call the container use docker exec to ls then find path for replace module
-  # then register it as variable
-
-  - name: install ansible 
-    shell: sudo apt install ansible
-
-  - name: Install docker galaxy
-    shell: ansible-galaxy collection install community.docker
 
 
 
