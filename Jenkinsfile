@@ -26,8 +26,6 @@ pipeline {
                 sh 'terraform -chdir="terraform/" init '
                 sh 'terraform -chdir="terraform/" plan'
                 sh 'terraform -chdir="terraform/" apply -auto-approve'
-                sh 'ls -la'
-                sh 'pwd'
             }
         }
 
@@ -35,8 +33,7 @@ pipeline {
             // an ansible playbook that clones down the repo,
             // changes the config using replace
             steps {
-                sh "git clone https://github.com/cristianacmc/ams-final-project"
-                sh 'ansible-playbook -chdir="ams-final-project/" -i host.ini config.yml'
+                sh 'ansible-playbook config.yml'
             }
         }
 
@@ -44,21 +41,29 @@ pipeline {
             steps {
                 dir('angular/'){
                     sh 'docker build -t 5pectr3/petclinic-frontend:latest .'
-                    sh 'docker push 5pectr3/petclinic-frontend:latest'
                 }
                 dir('rest/'){
-                sh 'docker build -t 5pectr3/petclinic-backend:latest .'
-                sh 'docker push 5pectr3/petclinic-backend:latest'
+                    sh 'docker build -t 5pectr3/petclinic-backend:latest .'
                 }
+            }
+        }
 
-                
-                
+        stage('Push images to Hub'){
+            steps{
+                script{
+                    withCredentials([string(credentialsId: '5pectr3', variable: 'dockerhubpwd')]){
+                        sh 'sudo docker login -u 5pectr3 -p ${dockerhubpwd}'
+                    }
+                    sh 'sudo docker push 5pectr3/petclinic-frontend:latest'
+                    sh 'sudo docker push 5pectr3/petclinic-backend:latest'
+                }
             }
         }
 
         stage('Deploy main playbook') {
             steps {
-                sh "ansible-playbook -i host.ini playbook.yaml" // add inventory back at some stage
+                // sh "ansible-playbook -i inventory.yaml playbook.yaml" // add inventory back at some stage
+                ansiblePlaybook credentialsId: 'MasterKeys', disableHostChecking: true, installation: 'ansible-config', inventory: 'inventory.yaml', playbook: 'playbook.yaml'
             }
         }
     }
