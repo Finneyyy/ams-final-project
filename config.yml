@@ -9,7 +9,7 @@
 
   - name: Set Instance IP as variable
     set_fact:
-      ec2_instance_ip_list: "{{ ec2_instance_ips.stdout_lines }}"
+      ec2_instance_ip_list: "{{ ec2_instance_ip.stdout_lines }}"
 
   - name: Get db endpoint URL
     command: terraform output db_endpoint_url
@@ -19,10 +19,6 @@
   - name: Set endpoint URL as variable
     set_fact:
       db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
-
-  - name: Add host to inventory
-    add_host:
-      hostname: '{{ ec2_instance_ip }}'
 
   - name: Replace database endpoint url
     replace:
