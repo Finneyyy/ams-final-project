@@ -1,5 +1,6 @@
 - hosts: all
   remote_user: ubuntu
+  become: yes
   vars:
     git_version: latest
     nginx_version: latest
