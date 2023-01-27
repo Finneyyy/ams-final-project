@@ -1,7 +1,5 @@
-# is replacing original playbook replace
 - hosts: all
   tasks:
-  # backend
   - name: Get EC2 Instance IP from Terraform
     command: terraform output ec2_instance_ip
     register: ec2_instance_ip
