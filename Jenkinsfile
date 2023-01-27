@@ -52,7 +52,7 @@ pipeline {
 
         stage('Deploy main playbook') {
             steps {
-                ansiblePlaybook credentialsId: '408ff250-58c2-40f4-707a1b10022e', disableHostKeyChecking: true, installation: 'ansible-config', inventory: 'inventory.yaml', playbook: 'playbook.yaml'
+                ansiblePlaybook credentialsId: 'MasterKeys', disableHostKeyChecking: true, installation: 'ansible-config', inventory: 'inventory.yaml', playbook: 'playbook.yaml'
             }
         }
     }
