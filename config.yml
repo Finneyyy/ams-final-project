@@ -2,7 +2,7 @@
   remote_user: ubuntu
   tasks:
   - name: Get EC2 Instance IP from Terraform
-    command: terraform output ec2_instance_ip
+    shell: terraform output ec2_instance_ip
     register: ec2_instance_ip
     changed_when: false
 
@@ -11,7 +11,7 @@
       ec2_instance_ip_list: "{{ ec2_instance_ip.stdout_lines }}"
 
   - name: Get db endpoint URL
-    command: terraform output db_endpoint_url
+    shell: terraform output db_endpoint_url
     register: db_endpoint_url
     changed_when: false
 
