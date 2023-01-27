@@ -43,6 +43,12 @@
       dest: /home/ubuntu/docker-compose.yml
       owner: ubuntu
 
+  - name: copy inv to remote system
+    copy: 
+      src: inventory.yaml
+      dest: /home/ubuntu/inventory.yaml
+      owner: ubuntu
+
   # runs the dockerswarm stuff
 - hosts: all
   become: true
