@@ -1,4 +1,5 @@
 - hosts: all
+  remote_user: ubuntu
   tasks:
   - name: Get EC2 Instance IP from Terraform
     command: terraform output ec2_instance_ip
