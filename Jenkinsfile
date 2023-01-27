@@ -23,7 +23,7 @@ pipeline {
 
         stage('run playbook to change config'){
             steps {
-                sh 'ansible-playbook -i inventory.yaml config.yml'
+                ansiblePlaybook credentialsId: 'MasterKeys', disableHostKeyChecking: true, inventory: 'inventory.yam;', playbook: 'config.yml'
             }
         }
 
