@@ -4,7 +4,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh "sudo chmod +x install-ansible-and-jenkins.sh"
-                sh "./ansible.sh"
+                sh "./install-ansible-and-jenkins.sh"
                 script{
                     if(fileExists('terraform/terraform.tfstate')){
                         sh 'terraform -chdir="terraform/" destroy -auto-approve'
