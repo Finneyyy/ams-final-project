@@ -1,0 +1,13 @@
+# pwd is /home/ubuntu
+- name: leave swarm
+  docker_swarm:
+    state: absent
+    force: true
+  ignore_errors: true
+
+- name: Init Swarm
+  command: "docker swarm init --advertise-addr {{ inventory_hostname }}"
+
+- name: Deploy stack
+  command: docker stack deploy --compose-file docker-compose.yml petclinic-stack
+
