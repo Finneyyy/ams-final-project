@@ -1,18 +1,17 @@
 - hosts: all
   remote_user: ubuntu
   tasks:
-  - name: Get EC2 Instance IP from Terraform
-    shell: cat ec2-ip.txt
+  - name: Read file and set output as variable
+    debug: {{ lookup('file','/home/ubuntu/ec2-ip.txt') }}
     register: ec2_instance_ip
     changed_when: false
-
-  - name: Set Instance IP as variable
+  
+  - name: Set endpoint URL as variable
     set_fact:
-      ec2_instance_ip_list: "{{ ec2_instance_ip.stdout_lines }}"
-
+      ec2_instance_ip_variable: "{{ ec2_instance_ip.stdout }}"
 # This might work, not tested
   - name: Get db endpoint URL
-    shell: cat db-endpoint.txt
+    debug: {{ lookup('file','/home/ubuntu/rds-url.txt') }}
     register: db_endpoint_url
     changed_when: false
 
