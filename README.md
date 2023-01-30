@@ -1,5 +1,8 @@
 # DevOps - Final Project
 
+## PLEASE NOTE THAT PROJECT IS INCOMPLETE
+There's an issue in the config.yml file. I'd need to export the 2 needed terraform outputs (ec2 instance ip and the rds endpoint url) to a file, copy the file to the provisioned instance and "pull" the contents out of the file. It'd certainly be easier to use 2 files, might complete this when I get the chance.
+
 ## Introduction
 
 The purpose of this project is to design and implement a solution for automating the development workflows and deployments of the **Spring Pet Clinic** application, using tools that encapsulates concepts of all core modules covered during the training. 
@@ -93,6 +96,11 @@ During the project, a risk assessment was designed to evaluate potential scenari
 However the risk assessment was not reviewed at the end of the projects. 
 
 
+## Special Thanks to the following people:
+Jac Adams and all from AMS who helped keeping our heads in the game.
+Adam G, Leon R, Earl G, and all the trainers at QA
+The folks at Deloitte, including Bence R and Richard N. Ye were great!
+### And last but not least,
+My fellow team members, who without ye I wouldn't have been able to get a successful deployment.
 
-
-
+## Thanks folks
