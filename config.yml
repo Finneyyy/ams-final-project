@@ -2,7 +2,7 @@
   remote_user: ubuntu
   tasks:
   - name: Get EC2 Instance IP from Terraform
-    shell: curl http://ipinfo.io/ip
+    shell: cat ec2-ip.txt
     register: ec2_instance_ip
     changed_when: false
 
@@ -10,23 +10,25 @@
     set_fact:
       ec2_instance_ip_list: "{{ ec2_instance_ip.stdout_lines }}"
 
-  # - name: Get db endpoint URL
-  #   register: db_endpoint_url
-  #   changed_when: false
+# This might work, not tested
+  - name: Get db endpoint URL
+    shell: cat db-endpoint.txt
+    register: db_endpoint_url
+    changed_when: false
 
-  # - name: Set endpoint URL as variable
-  #   set_fact:
-  #     db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
+  - name: Set endpoint URL as variable
+    set_fact:
+      db_endpoint_url_variable: "{{ db_endpoint_url.stdout }}"
 
   - name: Replace database endpoint url
     replace:
-      path: src/main/resources/application-mysql.properties
+      path: rest/main/resources/application-mysql.properties
       regexp: 'localhost:3306'
-      replace: "terraform-20230127030028485300000003.cgbbe2c956ri.eu-west-1.rds.amazonaws.com:3306"
+      replace: "{{ db_endpoint_url }}"
 
   # frontend
   - name: Replace backend url
     replace:
-      path: src/environments/environment.ts
+      path: angular/environments/environment.ts
       regexp: 'localhost'
       replace: "{{ ec2_instance_ip.stdout_lines }}"
