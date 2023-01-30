@@ -48,6 +48,18 @@
       src: inventory.yaml
       dest: /home/ubuntu/inventory.yaml
       owner: ubuntu
+      
+  - name: copy ec2 file to remote
+    copy: 
+      src: ec2-ip.txt
+      dest: /home/ubuntu/ec2-ip.txt
+      owner: ubuntu
+      
+  - name: copy rds file to remote
+    copy: 
+      src: rds-url.txt
+      dest: /home/ubuntu/rds-url.txt
+      owner: ubuntu
 
   # runs the dockerswarm stuff
 - hosts: all
