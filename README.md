@@ -1,7 +1,9 @@
 # DevOps - Final Project
 
 ## PLEASE NOTE THAT PROJECT IS INCOMPLETE
-There's an issue in the config.yml file. I'd need to export the 2 needed terraform outputs (ec2 instance ip and the rds endpoint url) to a file, copy the file to the provisioned instance and "pull" the contents out of the file. It'd certainly be easier to use 2 files, might complete this when I get the chance.
+~~There's an issue in the config.yml file. I'd need to export the 2 needed terraform outputs (ec2 instance ip and the rds endpoint url) to a file, copy the file to the provisioned instance and "pull" the contents out of the file. It'd certainly be easier to use 2 files, might complete this when I get the chance.~~
+
+This has been implemented in principle. Haven't tested but 95% certain that it works.
 
 ## Introduction
 
